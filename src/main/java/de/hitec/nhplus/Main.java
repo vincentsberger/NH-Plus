@@ -29,7 +29,7 @@ public class Main extends Application {
             Scene scene = new Scene(pane);
             this.primaryStage.setTitle("NHPlus");
             this.primaryStage.setScene(scene);
-            this.primaryStage.setResizable(false);
+            this.primaryStage.setResizable(true);
             this.primaryStage.show();
 
             this.primaryStage.setOnCloseRequest(event -> {

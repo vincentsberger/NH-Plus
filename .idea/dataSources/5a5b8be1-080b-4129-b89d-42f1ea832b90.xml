@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="nursingHome.db">
-  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.49">
-    <root id="1">
-      <ServerVersion>3.43.0</ServerVersion>
-    </root>
+  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.51">
+    <root id="1"/>
     <schema id="2" parent="1" name="main">
       <Current>1</Current>
-      <IntrospectionTimestamp>2024-03-05.10:45:32.297</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2024-03-05.09:45:32</LocalIntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-03-05.09:45:32</LastIntrospectionLocalTimestamp>
     </schema>
     <table id="3" parent="2" name="patient"/>
     <table id="4" parent="2" name="sqlite_master">
