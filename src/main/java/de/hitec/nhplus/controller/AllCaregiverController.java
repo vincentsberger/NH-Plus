@@ -158,7 +158,7 @@ public class AllCaregiverController {
      * @param event Event including the changed object and the change.
      */
     @FXML
-    public void handleOnEditCareLevel(TableColumn.CellEditEvent<Caregiver, String> event) {
+    public void handleOnEditTelephone(TableColumn.CellEditEvent<Caregiver, String> event) {
         event.getRowValue().setTelephone(event.getNewValue());
         this.doUpdate(event);
     }
@@ -194,7 +194,7 @@ public class AllCaregiverController {
 
     /**
      * This method handles events fired by the button to delete patients. It calls
-     * {@link PatientDao} to delete the
+     * {@link CaregiverDao} to delete the
      * patient from the database and removes the object from the list, which is the
      * data source of the
      * <code>TableView</code>.
@@ -217,7 +217,7 @@ public class AllCaregiverController {
      * collects the data from the
      * <code>TextField</code>s, creates an object of class <code>Patient</code> of
      * it and passes the object to
-     * {@link PatientDao} to persist the data.
+     * {@link CaregiverDao} to persist the data.
      */
     @FXML
     public void handleAdd() {
