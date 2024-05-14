@@ -8,21 +8,10 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class MainWindowController {
+public class UserAuthentificationController {
 
-    
     @FXML
     private BorderPane mainBorderPane;
-
-    @FXML
-    private void handleShowAuthentificationForm(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/UserAuthentificationController.fxml"));
-        try {
-            mainBorderPane.setCenter(loader.load());
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
 
     @FXML
     private void handleShowAllPatient(ActionEvent event) {
@@ -53,4 +42,6 @@ public class MainWindowController {
             exception.printStackTrace();
         }
     }
+
+
 }
