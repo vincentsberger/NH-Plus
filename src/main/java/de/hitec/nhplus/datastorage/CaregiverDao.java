@@ -121,9 +121,9 @@ public class CaregiverDao extends DaoImp<Caregiver> {
 
     /**
      * Generates a <code>PreparedStatement</code> to update the given patient, identified
-     * by the id of the patient (pid).
+     * by the id of the Caregiver (cid).
      *
-     * @param patient Patient object to update.
+     * @param caregiver Caregiver object to update.
      * @return <code>PreparedStatement</code> to update the given patient.
      */
     @Override
@@ -149,10 +149,10 @@ public class CaregiverDao extends DaoImp<Caregiver> {
     }
 
     /**
-     * Generates a <code>PreparedStatement</code> to delete a patient with the given id.
+     * Generates a <code>PreparedStatement</code> to delete a caregiver with the given id.
      *
-     * @param pid Id of the patient to delete.
-     * @return <code>PreparedStatement</code> to delete patient with the given id.
+     * @param cid Id of the caregiver to delete.
+     * @return <code>PreparedStatement</code> to delete caregiver with the given id.
      */
     @Override
     protected PreparedStatement getDeleteStatement(long cid) {
