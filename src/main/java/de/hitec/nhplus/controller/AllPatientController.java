@@ -124,8 +124,6 @@ public class AllPatientController {
         this.textFieldFirstName.textProperty().addListener(inputNewPatientListener);
         this.textFieldDateOfBirth.textProperty().addListener(inputNewPatientListener);
         this.textFieldCareLevel.textProperty().addListener(inputNewPatientListener);
-        this.textFieldRoomNumber.textProperty().addListener(inputNewPatientListener);
-        this.textFieldAssets.textProperty().addListener(inputNewPatientListener);
     }
 
     /**
