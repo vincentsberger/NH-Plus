@@ -1,4 +1,6 @@
 module de.hitec.nhplus {
+    requires transitive javafx.base;
+    requires transitive javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
 
