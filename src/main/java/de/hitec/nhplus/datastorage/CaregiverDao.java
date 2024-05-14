@@ -3,10 +3,7 @@ package de.hitec.nhplus.datastorage;
 import de.hitec.nhplus.model.Caregiver;
 import de.hitec.nhplus.utils.DateConverter;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -28,22 +25,21 @@ public class CaregiverDao extends DaoImp<Caregiver> {
     /**
      * Generates a <code>PreparedStatement</code> to persist the given object of <code>Patient</code>.
      *
-     * @param patient Object of <code>Patient</code> to persist.
+     * @param caregiver Object of <code>Patient</code> to persist.
      * @return <code>PreparedStatement</code> to insert the given patient.
      */
     @Override
     protected PreparedStatement getCreateStatement(Caregiver caregiver) {
         PreparedStatement preparedStatement = null;
         try {
-            final String SQL = "INSERT INTO caregiver (firstname, surname, dateOfBirth, carelevel, roomnumber, assets) " +
+            final String SQL = "INSERT INTO caregiver (firstname, surname, dateOfBirth, telephone) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = this.connection.prepareStatement(SQL);
-            preparedStatement.setString(1, patient.getFirstName());
-            preparedStatement.setString(2, patient.getSurname());
-            preparedStatement.setString(3, patient.getDateOfBirth());
-            preparedStatement.setString(4, patient.getCareLevel());
-            preparedStatement.setString(5, patient.getRoomNumber());
-            preparedStatement.setString(6, patient.getAssets());
+            preparedStatement.setString(1, caregiver.getFirstName());
+            preparedStatement.setString(2, caregiver.getSurname());
+            preparedStatement.setString(3, caregiver.getDateOfBirth());
+            preparedStatement.setString(4, caregiver.getTelephone());
+
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -57,12 +53,12 @@ public class CaregiverDao extends DaoImp<Caregiver> {
      * @return <code>PreparedStatement</code> to query the patient.
      */
     @Override
-    protected PreparedStatement getReadByIDStatement(long pid) {
+    protected PreparedStatement getReadByIDStatement(long cid) {
         PreparedStatement preparedStatement = null;
         try {
-            final String SQL = "SELECT * FROM patient WHERE pid = ?";
+            final String SQL = "SELECT * FROM caregiver WHERE cid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
-            preparedStatement.setLong(1, pid);
+            preparedStatement.setLong(1, cid);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -83,8 +79,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
                 result.getString(3),
                 DateConverter.convertStringToLocalDate(result.getString(4)),
                 result.getString(5),
-                result.getString(6),
-                result.getString(7));
+
     }
 
     /**
@@ -118,7 +113,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
             Caregiver caregiver = new Caregiver(result.getInt(1), result.getString(2),
                     result.getString(3), date,
-                    result.getString(5), result.getString(6), result.getString(7));
+                    result.getString(5));
             list.add(caregiver);
         }
         return list;
@@ -148,10 +143,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
             preparedStatement.setString(1, caregiver.getFirstName());
             preparedStatement.setString(2, caregiver.getSurname());
             preparedStatement.setString(3, caregiver.getDateOfBirth());
-            preparedStatement.setString(4, caregiver.getCareLevel());
-            preparedStatement.setString(5, caregiver.getRoomNumber());
-            preparedStatement.setString(6, caregiver.getAssets());
-            preparedStatement.setLong(7, caregiver.getPid());
+            preparedStatement.setString(4, caregiver.getTelephone());
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -165,12 +157,12 @@ public class CaregiverDao extends DaoImp<Caregiver> {
      * @return <code>PreparedStatement</code> to delete patient with the given id.
      */
     @Override
-    protected PreparedStatement getDeleteStatement(long pid) {
+    protected PreparedStatement getDeleteStatement(long cid) {
         PreparedStatement preparedStatement = null;
         try {
             final String SQL = "DELETE FROM caregiver WHERE cid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
-            preparedStatement.setLong(1, pid);
+            preparedStatement.setLong(1, cid);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
