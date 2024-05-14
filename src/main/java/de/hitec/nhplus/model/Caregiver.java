@@ -5,8 +5,6 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Patients live in a NURSING home and are treated by nurses.
@@ -15,13 +13,12 @@ public class Caregiver extends Person {
 
     private SimpleLongProperty cid;
     private final SimpleStringProperty dateOfBirth;
-    private final List<Treatment> allTreatments = new ArrayList<>();
     private final SimpleStringProperty telephone;
 
 
-    public Caregiver(String firstName, String surname, String dateOfBirth, String telephone) {
+    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone) {
         super(firstName, surname);
-        this.dateOfBirth = new SimpleStringProperty(dateOfBirth);
+        this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.telephone = new SimpleStringProperty(telephone);
     }
 
@@ -40,8 +37,13 @@ public class Caregiver extends Person {
         return cid;
     }
 
+
     public String getDateOfBirth() {
         return dateOfBirth.get();
+    }
+
+    public void setDateOfBirth(String date) {
+        dateOfBirth.set(date);
     }
 
     public SimpleStringProperty dateOfBirthProperty() {
@@ -49,6 +51,10 @@ public class Caregiver extends Person {
     }
 
     public String getTelephone() { return telephone.get();}
+
+    public void setTelephone(String tel) {
+        telephone.set(tel);
+    }
 
 
     public String toString() {

@@ -33,7 +33,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
         PreparedStatement preparedStatement = null;
         try {
             final String SQL = "INSERT INTO caregiver (firstname, surname, dateOfBirth, telephone) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?)";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, caregiver.getFirstName());
             preparedStatement.setString(2, caregiver.getSurname());
@@ -78,8 +78,8 @@ public class CaregiverDao extends DaoImp<Caregiver> {
                 result.getString(2),
                 result.getString(3),
                 DateConverter.convertStringToLocalDate(result.getString(4)),
-                result.getString(5),
-
+                result.getString(5)
+        );
     }
 
     /**
@@ -131,14 +131,12 @@ public class CaregiverDao extends DaoImp<Caregiver> {
         PreparedStatement preparedStatement = null;
         try {
             final String SQL =
-                    "UPDATE patient SET " +
+                    "UPDATE caregiver SET " +
                             "firstname = ?, " +
                             "surname = ?, " +
                             "dateOfBirth = ?, " +
-                            "carelevel = ?, " +
-                            "roomnumber = ?, " +
-                            "assets = ? " +
-                            "WHERE pid = ?";
+                            "telephone = ?, " +
+                            "WHERE cid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, caregiver.getFirstName());
             preparedStatement.setString(2, caregiver.getSurname());
