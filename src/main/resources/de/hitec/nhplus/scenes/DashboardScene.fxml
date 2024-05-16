@@ -6,7 +6,7 @@
 
 <BorderPane fx:id="userAuthBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="926.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.MainWindowController">
    <left>
-      <VBox id="vBox" alignment="CENTER" spacing="50.0" styleClass="vBox" stylesheets="@Application.css" BorderPane.alignment="CENTER">
+      <VBox id="vBox" alignment="CENTER" spacing="50.0" styleClass="vBox" stylesheets="@../Application.css" BorderPane.alignment="CENTER">
          <children>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowAllPatient" prefWidth="105.0" text="Patienten/innen">
                <VBox.margin>
