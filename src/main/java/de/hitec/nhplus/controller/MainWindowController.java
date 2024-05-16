@@ -15,14 +15,10 @@ public class MainWindowController {
     private BorderPane mainBorderPane;
 
     @FXML
-    private void handleShowAuthentificationForm(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/UserAuthentificationController.fxml"));
-        try {
-            mainBorderPane.setCenter(loader.load());
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+    private void handleSubmitButtonAction() {
+        this.handleShowAllPatient(null);
     }
+
 
     @FXML
     private void handleShowAllPatient(ActionEvent event) {
