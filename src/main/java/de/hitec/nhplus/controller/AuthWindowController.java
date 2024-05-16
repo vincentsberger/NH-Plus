@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class UserAuthentificationController {
+public class AuthWindowController {
 
     @FXML
     private BorderPane mainBorderPane;
