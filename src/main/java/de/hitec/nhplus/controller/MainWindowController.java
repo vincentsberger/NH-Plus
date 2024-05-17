@@ -12,7 +12,7 @@ public class MainWindowController {
 
     
     @FXML
-    private BorderPane mainBorderPane;
+    private BorderPane dashboardSceneBorderPane;
 
     @FXML
     private void handleSubmitButtonAction() {
@@ -24,7 +24,7 @@ public class MainWindowController {
     private void handleShowAllPatient(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/AllPatientView.fxml"));
         try {
-            mainBorderPane.setCenter(loader.load());
+            dashboardSceneBorderPane.setCenter(loader.load());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class MainWindowController {
     private void handleShowAllTreatments(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/AllTreatmentView.fxml"));
         try {
-            mainBorderPane.setCenter(loader.load());
+            dashboardSceneBorderPane.setCenter(loader.load());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class MainWindowController {
     private void handleShowAllCaregiver(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/AllCaregiverView.fxml"));
         try {
-            mainBorderPane.setCenter(loader.load());
+            dashboardSceneBorderPane.setCenter(loader.load());
         } catch (IOException exception) {
             exception.printStackTrace();
         }

@@ -14,9 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="926.0"
-   xmlns="http://javafx.com/javafx/21"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.MainWindowController">
+<BorderPane fx:id="loginSceneBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="926.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.scenes.LoginSceneController">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -25,17 +23,25 @@
                   <Font size="30.0" />
                </font>
             </Text>
+            <Text fx:id="errorMessageText" fill="#d00808" layoutX="289.0" layoutY="265.0" lineSpacing="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fehler: Falscher Benutzername und/oder falsches    Passwort!" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="24.0" />
+               </VBox.margin>
+            </Text>
             <GridPane alignment="center" hgap="10" vgap="10">
                <padding>
                   <Insets bottom="10" left="25" right="25" top="25" />
                </padding>
                <Text text="Bitte melden Sie sich an:" GridPane.columnSpan="2" />
                <Label text="Benutzername" GridPane.rowIndex="1" />
-               <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                <Label text="Passwort" GridPane.rowIndex="2" />
                <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                  <Button alignment="TOP_LEFT" onAction="#handleSubmitButtonAction" text="Anmelden" />
+                  <Button alignment="TOP_LEFT" onAction="#handleSubmitLoginButtonAction" text="Anmelden" />
                </HBox>
                <Text fx:id="actiontarget" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                <columnConstraints>

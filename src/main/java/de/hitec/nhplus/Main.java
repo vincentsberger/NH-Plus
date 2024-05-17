@@ -11,8 +11,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        SceneController sceneController = new SceneController(primaryStage);
-        sceneController.init();
+        SceneController controller = SceneController.getInstance();
+        controller.setStage(primaryStage);
+        controller.init();
     }
 
     public static void main(String[] args) {
