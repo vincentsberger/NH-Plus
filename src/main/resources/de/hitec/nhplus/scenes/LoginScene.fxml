@@ -39,9 +39,9 @@
                </padding>
                <Text text="Bitte melden Sie sich an:" GridPane.columnSpan="2" />
                <Label text="Benutzername" GridPane.rowIndex="1" />
-               <TextField fx:id="usernameField" promptText="user123" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <TextField fx:id="usernameField" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                <Label text="Passwort" GridPane.rowIndex="2" />
-               <PasswordField fx:id="passwordField" promptText="password123" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <PasswordField fx:id="passwordField" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
                   <Button alignment="TOP_LEFT" onAction="#handleSubmitButtonAction" text="Anmelden" />
                </HBox>
