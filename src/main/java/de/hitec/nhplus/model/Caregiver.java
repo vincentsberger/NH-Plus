@@ -14,12 +14,16 @@ public class Caregiver extends Person {
     private SimpleLongProperty cid;
     private final SimpleStringProperty dateOfBirth;
     private final SimpleStringProperty telephone;
+    private String username;
+    private String password;
 
 
-    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone) {
+    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password) {
         super(firstName, surname);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.telephone = new SimpleStringProperty(telephone);
+        this.username = username;
+        this.password = password;
     }
 
     public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone) {
@@ -29,8 +33,16 @@ public class Caregiver extends Person {
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
     public long getCid() {
-        return cid.get();
+        return this.cid.get();
     }
 
     public SimpleLongProperty cidProperty() {
