@@ -213,8 +213,11 @@ public class AllCaregiverController {
         String birthday = this.textFieldDateOfBirth.getText();
         LocalDate date = DateConverter.convertStringToLocalDate(birthday);
         String telephone = this.textFieldTelephone.getText();
+        // String username = this.textFieldUsername.getText();
+        // String passswort = this.textFieldPasswort.getText();
+
         try {
-            this.dao.create(new Caregiver(firstName, surname, date, telephone));
+            this.dao.create(new Caregiver(firstName, surname, date, telephone, "user"+telephone, "password"+telephone));
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

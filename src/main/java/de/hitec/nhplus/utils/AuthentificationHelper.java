@@ -16,4 +16,7 @@ public class AuthentificationHelper {
         return false;
     }
 
+    public void fetchCaregiverUserCredentialsFromDB() {
+    }
+
 }
