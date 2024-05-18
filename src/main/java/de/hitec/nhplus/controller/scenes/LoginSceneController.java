@@ -12,6 +12,10 @@ import javafx.scene.text.Text;
 
 public class LoginSceneController {
 
+    /** count bad logins */
+    private int badLoginCounter = 0;
+
+
     @FXML
     private TextField usernameField;
     @FXML
@@ -20,19 +24,22 @@ public class LoginSceneController {
     private Text errorMessageText;
 
     @FXML
-    public void handleSubmitLoginButtonAction(ActionEvent event) {
+    public void handleSubmitButtonAction(ActionEvent event) {
         AuthentificationHelper authHelper = new AuthentificationHelper();
         String usernameInput = (String)usernameField.getText();
         String passwordInput = (String)passwordField.getText();
         if(!authHelper.isValidLogin(usernameInput, passwordInput)) {
+            badLoginCounter++;
             usernameField.setText("");
             passwordField.setText("");
+            errorMessageText.setText("Fehler: Falscher Benutzername und/oder falsches Passwort! Anzahl Fehlversuche: " + badLoginCounter);
             errorMessageText.setVisible(true);
-            System.out.println("test");
+            usernameField.requestFocus();
             return;
         }
         SceneController controller = SceneController.getInstance();
         Scene nextScene = controller.getSceneFromResource("DashboardScene.fxml");
         controller.setScene(nextScene);
     }
+
 }

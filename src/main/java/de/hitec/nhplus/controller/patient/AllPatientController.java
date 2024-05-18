@@ -1,4 +1,4 @@
-package de.hitec.nhplus.controller;
+package de.hitec.nhplus.controller.patient;
 
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.datastorage.PatientDao;
