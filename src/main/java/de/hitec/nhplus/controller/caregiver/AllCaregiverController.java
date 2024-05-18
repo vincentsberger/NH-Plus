@@ -60,6 +60,9 @@ public class AllCaregiverController {
     private TextField textFieldDateOfBirth;
 
     @FXML
+    private TextField textFieldCID;
+
+    @FXML
     private TextField textFieldTelephone;
 
     private final ObservableList<Caregiver> caregivers = FXCollections.observableArrayList();
@@ -85,9 +88,6 @@ public class AllCaregiverController {
         this.columnSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         this.columnSurname.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        this.columnDateOfBirth.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
-        this.columnDateOfBirth.setCellFactory(TextFieldTableCell.forTableColumn());
-
         this.columnTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         this.columnTelephone.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -110,7 +110,6 @@ public class AllCaregiverController {
                         .setDisable(!AllCaregiverController.this.areInputDataValid());
         this.textFieldSurname.textProperty().addListener(inputNewCaregiverListener);
         this.textFieldFirstName.textProperty().addListener(inputNewCaregiverListener);
-        this.textFieldDateOfBirth.textProperty().addListener(inputNewCaregiverListener);
         this.textFieldTelephone.textProperty().addListener(inputNewCaregiverListener);
 
     }
@@ -136,18 +135,6 @@ public class AllCaregiverController {
     @FXML
     public void handleOnEditSurname(TableColumn.CellEditEvent<Caregiver, String> event) {
         event.getRowValue().setSurname(event.getNewValue());
-        this.doUpdate(event);
-    }
-
-    /**
-     * When a cell of the column with dates of birth was changed, this method will
-     * be called, to persist the change.
-     *
-     * @param event Event including the changed object and the change.
-     */
-    @FXML
-    public void handleOnEditDateOfBirth(TableColumn.CellEditEvent<Caregiver, String> event) {
-        event.getRowValue().setDateOfBirth(event.getNewValue());
         this.doUpdate(event);
     }
 

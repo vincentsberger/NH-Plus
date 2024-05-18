@@ -34,7 +34,7 @@ public class Caregiver extends Person {
     }
 
     public SimpleLongProperty cidProperty() {
-        return cid;
+        return this.cid;
     }
 
 
