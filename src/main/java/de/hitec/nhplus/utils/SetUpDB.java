@@ -79,7 +79,9 @@ public class SetUpDB {
                                 "   firstname TEXT NOT NULL, " +
                                 "   surname TEXT NOT NULL, " +
                                 "   dateOfBirth TEXT NOT NULL, " +
-                                "   telephone TEXT NOT NULL " +
+                                "   telephone TEXT NOT NULL," +
+                                "   username TEXT NOT NULL," +
+                                "   password TEXT NOT NULL" +
                                 ");";
 
                 try (Statement statement = connection.createStatement()) {
@@ -180,17 +182,22 @@ public class SetUpDB {
         private static void setUpCaregiver() {
                 try {
                         CaregiverDao dao = DaoFactory.getDaoFactory().createCaregiverDao();
-                        dao.create(new Caregiver("Seppl", "Herberger", convertStringToLocalDate("1945-12-01"),
-                                        "0123456789"));
+                        dao.create(new Caregiver("git", "Herberger", convertStringToLocalDate("1945-12-01"),
+                                        "0123456789", "seppl", "passwort"));
                         dao.create(new Caregiver("Martina", "Gerdsen", convertStringToLocalDate("1954-08-12"),
+                                        "martina", "passwort",
                                         "0123456789"));
                         dao.create(new Caregiver("Gertrud", "Franzen", convertStringToLocalDate("1949-04-16"),
+                                        "gertrud", "passwort",
                                         "0123456789"));
-                        dao.create(new Caregiver("Ahmet", "Yilmaz", convertStringToLocalDate("1941-02-22"),
+                        dao.create(new Caregiver("Ahmet", "Yilmaz", convertStringToLocalDate("1941-02-22"), "ahmet",
+                                        "passwort",
                                         "0123456789"));
-                        dao.create(new Caregiver("Hans", "Neumann", convertStringToLocalDate("1955-12-12"),
+                        dao.create(new Caregiver("Hans", "Neumann", convertStringToLocalDate("1955-12-12"), "hans",
+                                        "passwort",
                                         "0123456789"));
                         dao.create(new Caregiver("Elisabeth", "Müller", convertStringToLocalDate("1958-03-07"),
+                                        "elisabeht", "passwort",
                                         "0123456789"));
                 } catch (SQLException exception) {
                         exception.printStackTrace();
