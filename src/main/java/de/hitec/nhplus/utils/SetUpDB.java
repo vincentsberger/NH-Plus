@@ -151,26 +151,26 @@ public class SetUpDB {
                                         convertStringToLocalTime("15:10"),
                                         convertStringToLocalTime("16:00"), "Spaziergang",
                                         "Spaziergang im Park, Patient döst  im Rollstuhl ein"));
-                        dao.create(new Treatment(8, 1, convertStringToLocalDate("2023-06-08"),
+                        dao.create(new Treatment(1, 1, convertStringToLocalDate("2023-06-08"),
                                         convertStringToLocalTime("15:00"),
                                         convertStringToLocalTime("16:00"), "Spaziergang",
                                         "Parkspaziergang; Patient ist heute lebhafter und hat klare Momente; erzählt von seiner Tochter"));
-                        dao.create(new Treatment(9, 2, convertStringToLocalDate("2023-06-07"),
+                        dao.create(new Treatment(2, 2, convertStringToLocalDate("2023-06-07"),
                                         convertStringToLocalTime("11:00"),
                                         convertStringToLocalTime("11:30"), "Waschen",
                                         "Waschen per Dusche auf einem Stuhl; Patientin gewendet;"));
-                        dao.create(new Treatment(12, 5, convertStringToLocalDate("2023-06-08"),
+                        dao.create(new Treatment(3, 3, convertStringToLocalDate("2023-06-08"),
                                         convertStringToLocalTime("15:00"),
                                         convertStringToLocalTime("15:30"), "Physiotherapie",
                                         "Übungen zur Stabilisation und Mobilisierung der Rückenmuskulatur"));
-                        dao.create(new Treatment(12, 5, convertStringToLocalDate("2023-08-24"),
+                        dao.create(new Treatment(3, 3, convertStringToLocalDate("2023-08-24"),
                                         convertStringToLocalTime("09:30"),
                                         convertStringToLocalTime("10:15"), "KG", "Lympfdrainage"));
-                        dao.create(new Treatment(12, 6, convertStringToLocalDate("2023-08-31"),
+                        dao.create(new Treatment(2, 3, convertStringToLocalDate("2023-08-31"),
                                         convertStringToLocalTime("13:30"),
                                         convertStringToLocalTime("13:45"), "Toilettengang",
                                         "Hilfe beim Toilettengang; Patientin klagt über Schmerzen beim Stuhlgang. Gabe von Iberogast"));
-                        dao.create(new Treatment(12, 6, convertStringToLocalDate("2023-09-01"),
+                        dao.create(new Treatment(1, 3, convertStringToLocalDate("2023-09-01"),
                                         convertStringToLocalTime("16:00"),
                                         convertStringToLocalTime("17:00"), "KG",
                                         "Massage der Extremitäten zur Verbesserung der Durchblutung"));
@@ -182,23 +182,14 @@ public class SetUpDB {
         private static void setUpCaregiver() {
                 try {
                         CaregiverDao dao = DaoFactory.getDaoFactory().createCaregiverDao();
-                        dao.create(new Caregiver("git", "Herberger", convertStringToLocalDate("1945-12-01"),
-                                        "0123456789", "seppl", "passwort"));
-                        dao.create(new Caregiver("Martina", "Gerdsen", convertStringToLocalDate("1954-08-12"),
-                                        "martina", "passwort",
-                                        "0123456789"));
-                        dao.create(new Caregiver("Gertrud", "Franzen", convertStringToLocalDate("1949-04-16"),
-                                        "gertrud", "passwort",
-                                        "0123456789"));
-                        dao.create(new Caregiver("Ahmet", "Yilmaz", convertStringToLocalDate("1941-02-22"), "ahmet",
-                                        "passwort",
-                                        "0123456789"));
-                        dao.create(new Caregiver("Hans", "Neumann", convertStringToLocalDate("1955-12-12"), "hans",
-                                        "passwort",
-                                        "0123456789"));
-                        dao.create(new Caregiver("Elisabeth", "Müller", convertStringToLocalDate("1958-03-07"),
-                                        "elisabeht", "passwort",
-                                        "0123456789"));
+                        dao.create(new Caregiver("Vincent", "Simonsbreger", convertStringToLocalDate("1945-12-01"),
+                                        "0123456789", "vincent", "passwort123"));
+                        dao.create(new Caregiver("Fokko", "Elberfeldt", convertStringToLocalDate("1954-08-12"),
+                                        "13371337", "fokko", "passwort123"));
+                        dao.create(new Caregiver("Nikito", "Hertrampf", convertStringToLocalDate("1949-04-16"),
+                                        "18991899", "nikita", "passwort123"));
+                        dao.create(new Caregiver("Oliver", "Koch", convertStringToLocalDate("1941-02-22"),
+                                        "0123456789", "oliver", "passwort123"));
                 } catch (SQLException exception) {
                         exception.printStackTrace();
                 }
