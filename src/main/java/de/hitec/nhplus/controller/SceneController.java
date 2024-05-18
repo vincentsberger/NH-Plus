@@ -34,11 +34,11 @@ public final class SceneController {
         this.stage.setScene(scene);
     }
 
-    public Scene getSceneByFilnename(String filename) {
-        Scene newScene = this.getSceneFromResource(filename);
-        return newScene;
-    }
-
+    /**
+     * Returns a Scene from a given FXML filename, e.g. "LoginScene.fxml".
+     * @param fxmlFile
+     * @return Scene|null 
+     */
     public Scene getSceneFromResource(String fxmlFile) {
         try {
             URL pathToFxmlFile = this.getClass().getResource("/de/hitec/nhplus/scenes/" + fxmlFile);
@@ -52,8 +52,11 @@ public final class SceneController {
         }
     }
 
+    /**
+     * Initialises the scene
+     * @return void
+     */
     public void init() {
-        // Scene scene = new Scene(pane);
         this.stage.setTitle("NH-Plus - Willkommen");
         Scene initScene = getSceneFromResource("LoginScene.fxml");
         this.stage.setScene(initScene);

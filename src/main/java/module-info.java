@@ -11,6 +11,9 @@ module de.hitec.nhplus {
     opens de.hitec.nhplus to javafx.fxml;
     opens de.hitec.nhplus.controller to javafx.fxml;
     opens de.hitec.nhplus.controller.scenes to javafx.fxml;
+    opens de.hitec.nhplus.controller.patient to javafx.fxml;
+    opens de.hitec.nhplus.controller.caregiver to javafx.fxml;
+    opens de.hitec.nhplus.controller.treatment to javafx.fxml;
     opens de.hitec.nhplus.model to javafx.base;
 
     exports de.hitec.nhplus;
