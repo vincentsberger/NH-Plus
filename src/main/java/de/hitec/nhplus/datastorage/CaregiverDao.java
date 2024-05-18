@@ -32,13 +32,15 @@ public class CaregiverDao extends DaoImp<Caregiver> {
     protected PreparedStatement getCreateStatement(Caregiver caregiver) {
         PreparedStatement preparedStatement = null;
         try {
-            final String SQL = "INSERT INTO caregiver (firstname, surname, dateOfBirth, telephone) " +
-                    "VALUES (?, ?, ?, ?)";
+            final String SQL = "INSERT INTO caregiver (firstname, surname, dateOfBirth, telephone, username, password) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, caregiver.getFirstName());
             preparedStatement.setString(2, caregiver.getSurname());
             preparedStatement.setString(3, caregiver.getDateOfBirth());
             preparedStatement.setString(4, caregiver.getTelephone());
+            preparedStatement.setString(5, caregiver.getUsername());
+            preparedStatement.setString(6, caregiver.getPassword());
 
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -78,7 +80,9 @@ public class CaregiverDao extends DaoImp<Caregiver> {
                 result.getString(2),
                 result.getString(3),
                 DateConverter.convertStringToLocalDate(result.getString(4)),
-                result.getString(5)
+                result.getString(5),
+                result.getString(6),
+                result.getString(7)
         );
     }
 
@@ -113,7 +117,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
             Caregiver caregiver = new Caregiver(result.getInt(1), result.getString(2),
                     result.getString(3), date,
-                    result.getString(5));
+                    result.getString(5), result.getString(6), result.getString(7));
             list.add(caregiver);
         }
         return list;

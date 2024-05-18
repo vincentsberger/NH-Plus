@@ -64,6 +64,7 @@ public class SetUpDB {
                                 "   dateOfBirth TEXT NOT NULL, " +
                                 "   carelevel TEXT NOT NULL, " +
                                 "   roomnumber TEXT NOT NULL " +
+                                "   roomnumber TEXT NOT NULL " +
                                 ");";
                 try (Statement statement = connection.createStatement()) {
                         statement.execute(SQL);
@@ -115,9 +116,8 @@ public class SetUpDB {
         private static void setUpPatients() {
                 try {
                         PatientDao dao = DaoFactory.getDaoFactory().createPatientDAO();
-                        dao.create(
-                                        new Patient("Seppl", "Herberger", convertStringToLocalDate("1945-12-01"), "4",
-                                                        "202"));
+                        dao.create(new Patient("Seppl", "Herberger", convertStringToLocalDate("1945-12-01"), "4",
+                                        "202"));
                         dao.create(new Patient("Martina", "Gerdsen", convertStringToLocalDate("1954-08-12"), "5",
                                         "010"));
                         dao.create(new Patient("Gertrud", "Franzen", convertStringToLocalDate("1949-04-16"), "3",
@@ -150,7 +150,7 @@ public class SetUpDB {
                                         convertStringToLocalTime("15:10"),
                                         convertStringToLocalTime("16:00"), "Spaziergang",
                                         "Spaziergang im Park, Patient döst  im Rollstuhl ein"));
-                        dao.create(new Treatment(1, 1, convertStringToLocalDate("2023-06-08"),
+                        dao.create(new Treatment(2, 1, convertStringToLocalDate("2023-06-08"),
                                         convertStringToLocalTime("15:00"),
                                         convertStringToLocalTime("16:00"), "Spaziergang",
                                         "Parkspaziergang; Patient ist heute lebhafter und hat klare Momente; erzählt von seiner Tochter"));
@@ -158,18 +158,18 @@ public class SetUpDB {
                                         convertStringToLocalTime("11:00"),
                                         convertStringToLocalTime("11:30"), "Waschen",
                                         "Waschen per Dusche auf einem Stuhl; Patientin gewendet;"));
-                        dao.create(new Treatment(3, 3, convertStringToLocalDate("2023-06-08"),
+                        dao.create(new Treatment(3, 5, convertStringToLocalDate("2023-06-08"),
                                         convertStringToLocalTime("15:00"),
                                         convertStringToLocalTime("15:30"), "Physiotherapie",
                                         "Übungen zur Stabilisation und Mobilisierung der Rückenmuskulatur"));
-                        dao.create(new Treatment(3, 3, convertStringToLocalDate("2023-08-24"),
+                        dao.create(new Treatment(2, 5, convertStringToLocalDate("2023-08-24"),
                                         convertStringToLocalTime("09:30"),
                                         convertStringToLocalTime("10:15"), "KG", "Lympfdrainage"));
-                        dao.create(new Treatment(2, 3, convertStringToLocalDate("2023-08-31"),
+                        dao.create(new Treatment(1, 6, convertStringToLocalDate("2023-08-31"),
                                         convertStringToLocalTime("13:30"),
                                         convertStringToLocalTime("13:45"), "Toilettengang",
                                         "Hilfe beim Toilettengang; Patientin klagt über Schmerzen beim Stuhlgang. Gabe von Iberogast"));
-                        dao.create(new Treatment(1, 3, convertStringToLocalDate("2023-09-01"),
+                        dao.create(new Treatment(4, 6, convertStringToLocalDate("2023-09-01"),
                                         convertStringToLocalTime("16:00"),
                                         convertStringToLocalTime("17:00"), "KG",
                                         "Massage der Extremitäten zur Verbesserung der Durchblutung"));

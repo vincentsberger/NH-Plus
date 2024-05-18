@@ -26,11 +26,13 @@ public class Caregiver extends Person {
         this.password = password;
     }
 
-    public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone) {
+    public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password) {
         super(firstName, surname);
         this.cid = new SimpleLongProperty(cid);
         this.telephone = new SimpleStringProperty(telephone);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {
