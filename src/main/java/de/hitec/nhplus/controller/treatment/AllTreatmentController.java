@@ -32,6 +32,9 @@ public class AllTreatmentController {
     private TableColumn<Treatment, Integer> columnPid;
 
     @FXML
+    private TableColumn<Treatment, Integer> columnCid;
+
+    @FXML
     private TableColumn<Treatment, String> columnDate;
 
     @FXML
@@ -61,6 +64,7 @@ public class AllTreatmentController {
 
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("tid"));
         this.columnPid.setCellValueFactory(new PropertyValueFactory<>("pid"));
+        this.columnCid.setCellValueFactory(new PropertyValueFactory<>("cid"));
         this.columnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.columnBegin.setCellValueFactory(new PropertyValueFactory<>("begin"));
         this.columnEnd.setCellValueFactory(new PropertyValueFactory<>("end"));

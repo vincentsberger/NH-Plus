@@ -35,12 +35,12 @@ public class SetUpDB {
         public static void setUpDb() {
                 Connection connection = ConnectionBuilder.getConnection();
                 SetUpDB.wipeDb(connection);
-                SetUpDB.setUpTablePatient(connection);
-                SetUpDB.setUpTableTreatment(connection);
                 SetUpDB.setUpTableCaregiver(connection);
-                SetUpDB.setUpPatients();
-                SetUpDB.setUpTreatments();
                 SetUpDB.setUpCaregiver();
+                SetUpDB.setUpTablePatient(connection);
+                SetUpDB.setUpPatients();
+                SetUpDB.setUpTableTreatment(connection);
+                SetUpDB.setUpTreatments();
         }
 
         /**
@@ -73,25 +73,6 @@ public class SetUpDB {
                 }
         }
 
-        private static void setUpTableTreatment(Connection connection) {
-                final String SQL = "CREATE TABLE IF NOT EXISTS treatment (" +
-                                "   tid INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                "   pid INTEGER NOT NULL, " +
-                                "   treatment_date TEXT NOT NULL, " +
-                                "   begin TEXT NOT NULL, " +
-                                "   end TEXT NOT NULL, " +
-                                "   description TEXT NOT NULL, " +
-                                "   remark TEXT NOT NULL," +
-                                "   FOREIGN KEY (pid) REFERENCES patient (pid) ON DELETE CASCADE " +
-                                ");";
-
-                try (Statement statement = connection.createStatement()) {
-                        statement.execute(SQL);
-                } catch (SQLException exception) {
-                        System.out.println(exception.getMessage());
-                }
-        }
-
         private static void setUpTableCaregiver(Connection connection) {
                 final String SQL = "CREATE TABLE IF NOT EXISTS caregiver (" +
                                 "   cid INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -103,6 +84,27 @@ public class SetUpDB {
 
                 try (Statement statement = connection.createStatement()) {
 
+                        statement.execute(SQL);
+                } catch (SQLException exception) {
+                        System.out.println(exception.getMessage());
+                }
+        }
+
+        private static void setUpTableTreatment(Connection connection) {
+                final String SQL = "CREATE TABLE IF NOT EXISTS treatment (" +
+                                "   tid INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                "   pid INTEGER NOT NULL, " +
+                                "   cid INTEGER NOT NULL, " +
+                                "   treatment_date TEXT NOT NULL, " +
+                                "   begin TEXT NOT NULL, " +
+                                "   end TEXT NOT NULL, " +
+                                "   description TEXT NOT NULL, " +
+                                "   remarks TEXT NOT NULL," +
+                                "   FOREIGN KEY(pid) REFERENCES patient (pid)," +
+                                "   FOREIGN KEY(cid) REFERENCES caregiver (cid)" +
+                                ");";
+
+                try (Statement statement = connection.createStatement()) {
                         statement.execute(SQL);
                 } catch (SQLException exception) {
                         System.out.println(exception.getMessage());
@@ -161,14 +163,14 @@ public class SetUpDB {
                                         convertStringToLocalTime("15:00"),
                                         convertStringToLocalTime("15:30"), "Physiotherapie",
                                         "Übungen zur Stabilisation und Mobilisierung der Rückenmuskulatur"));
-                        dao.create(new Treatment(14, 4, convertStringToLocalDate("2023-08-24"),
+                        dao.create(new Treatment(12, 5, convertStringToLocalDate("2023-08-24"),
                                         convertStringToLocalTime("09:30"),
                                         convertStringToLocalTime("10:15"), "KG", "Lympfdrainage"));
-                        dao.create(new Treatment(16, 6, convertStringToLocalDate("2023-08-31"),
+                        dao.create(new Treatment(12, 6, convertStringToLocalDate("2023-08-31"),
                                         convertStringToLocalTime("13:30"),
                                         convertStringToLocalTime("13:45"), "Toilettengang",
                                         "Hilfe beim Toilettengang; Patientin klagt über Schmerzen beim Stuhlgang. Gabe von Iberogast"));
-                        dao.create(new Treatment(17, 6, convertStringToLocalDate("2023-09-01"),
+                        dao.create(new Treatment(12, 6, convertStringToLocalDate("2023-09-01"),
                                         convertStringToLocalTime("16:00"),
                                         convertStringToLocalTime("17:00"), "KG",
                                         "Massage der Extremitäten zur Verbesserung der Durchblutung"));

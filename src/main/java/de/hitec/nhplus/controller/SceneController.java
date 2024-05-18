@@ -60,7 +60,7 @@ public final class SceneController {
         this.stage.setTitle("NH-Plus - Willkommen");
         Scene initScene = getSceneFromResource("LoginScene.fxml");
         this.stage.setScene(initScene);
-        this.stage.setResizable(false);
+        this.stage.setResizable(true);
         this.stage.show();
         this.stage.setOnCloseRequest(event -> {
             ConnectionBuilder.closeConnection();

@@ -49,7 +49,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
     /**
      * Generates a <code>PreparedStatement</code> to query a patient by a given patient id (pid).
      *
-     * @param pid Patient id to query.
+     * @param cid Caregiver id to query.
      * @return <code>PreparedStatement</code> to query the patient.
      */
     @Override
