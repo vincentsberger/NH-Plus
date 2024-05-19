@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import de.hitec.nhplus.model.Caregiver;
 import de.hitec.nhplus.model.Patient;
 import de.hitec.nhplus.model.Treatment;
 import de.hitec.nhplus.utils.DateConverter;
@@ -22,6 +23,12 @@ public class NewTreatmentController {
 
     @FXML
     private Label labelSurname;
+
+    @FXML
+    private Label labelPflegerName;
+
+    @FXML
+    private Label labelPflegerTelefon;
 
     @FXML
     private TextField textFieldBegin;
@@ -43,21 +50,26 @@ public class NewTreatmentController {
 
     private AllTreatmentController controller;
     private Patient patient;
+    private Caregiver caregiver;
     private Stage stage;
 
-    public void initialize(AllTreatmentController controller, Stage stage, Patient patient) {
-        this.controller= controller;
+    public void initialize(AllTreatmentController controller, Stage stage, Patient patient, Caregiver caregiver) {
+        this.controller = controller;
         this.patient = patient;
+        this.caregiver = caregiver;
         this.stage = stage;
 
         this.buttonAdd.setDisable(true);
-        ChangeListener<String> inputNewPatientListener = (observableValue, oldText, newText) ->
-                NewTreatmentController.this.buttonAdd.setDisable(NewTreatmentController.this.areInputDataInvalid());
+        ChangeListener<String> inputNewPatientListener = (observableValue, oldText,
+                newText) -> NewTreatmentController.this.buttonAdd
+                        .setDisable(NewTreatmentController.this.areInputDataInvalid());
         this.textFieldBegin.textProperty().addListener(inputNewPatientListener);
         this.textFieldEnd.textProperty().addListener(inputNewPatientListener);
         this.textFieldDescription.textProperty().addListener(inputNewPatientListener);
         this.textAreaRemarks.textProperty().addListener(inputNewPatientListener);
-        this.datePicker.valueProperty().addListener((observableValue, localDate, t1) -> NewTreatmentController.this.buttonAdd.setDisable(NewTreatmentController.this.areInputDataInvalid()));
+        this.datePicker.valueProperty()
+                .addListener((observableValue, localDate, t1) -> NewTreatmentController.this.buttonAdd
+                        .setDisable(NewTreatmentController.this.areInputDataInvalid()));
         this.datePicker.setConverter(new StringConverter<>() {
             @Override
             public String toString(LocalDate localDate) {
@@ -70,15 +82,21 @@ public class NewTreatmentController {
             }
         });
         this.showPatientData();
+        this.showCaregiverData();
     }
 
-    private void showPatientData(){
+    private void showPatientData() {
         this.labelFirstName.setText(patient.getFirstName());
         this.labelSurname.setText(patient.getSurname());
     }
 
+    private void showCaregiverData() {
+        this.labelPflegerName.setText(caregiver.getSurname() + ", " + caregiver.getFirstName());
+        this.labelPflegerTelefon.setText(caregiver.getTelephone());
+    }
+
     @FXML
-    public void handleAdd(){
+    public void handleAdd() {
         LocalDate date = this.datePicker.getValue();
         LocalTime begin = DateConverter.convertStringToLocalTime(textFieldBegin.getText());
         LocalTime end = DateConverter.convertStringToLocalTime(textFieldEnd.getText());
@@ -100,7 +118,7 @@ public class NewTreatmentController {
     }
 
     @FXML
-    public void handleCancel(){
+    public void handleCancel() {
         stage.close();
     }
 
