@@ -93,6 +93,7 @@ public class AllTreatmentController {
     public void readAllAndShowInTableView() {
         this.treatments.clear();
         comboBoxPatientSelection.getSelectionModel().select(0);
+        comboBoxCaregiverSelection.getSelectionModel().select(0);
         this.dao = DaoFactory.getDaoFactory().createTreatmentDao();
         try {
             this.treatments.addAll(dao.readAll());
@@ -153,22 +154,21 @@ public class AllTreatmentController {
 
     @FXML
     public void handleCaregiverComboBox() {
-        String selectedCaregiver = this.comboBoxCaregiverSelection.getSelectionModel().getSelectedItem();
-        this.treatments.clear();
-        this.dao = DaoFactory.getDaoFactory().createTreatmentDao();
+        // String selectedCaregiver = this.comboBoxCaregiverSelection.getSelectionModel().getSelectedItem();
+        // this.treatments.clear();
+        // this.dao = DaoFactory.getDaoFactory().createTreatmentDao();
 
-        if (selectedCaregiver.equals("alle")) {
-            try {
-                this.treatments.addAll(this.dao.readAll());
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-        }
+        // if (selectedCaregiver.equals("alle")) {
+        //     try {
+        //         this.treatments.addAll(this.dao.readAll());
+        //     } catch (SQLException exception) {
+        //         exception.printStackTrace();
+        //     }
+        // }
 
         // Caregiver caregiver = searchCaregiverInList(selectedCaregiver);
         // if (caregiver !=null) {
         //     try {
-        //         // TODO
         //         this.treatments.addAll(this.dao.readTreatmentsByPid(caregiver.getCid()));
         //     } catch (SQLException exception) {
         //         exception.printStackTrace();
@@ -240,7 +240,7 @@ public class AllTreatmentController {
 
     public void newTreatmentWindow(Patient patient, Caregiver caregiver) {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/NewTreatmentView.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/views/treatment/NewTreatmentView.fxml"));
             AnchorPane pane = loader.load();
             Scene scene = new Scene(pane);
 
@@ -260,7 +260,7 @@ public class AllTreatmentController {
 
     public void treatmentWindow(Treatment treatment){
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/TreatmentView.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/de/hitec/nhplus/views/treatment/TreatmentView.fxml"));
             AnchorPane pane = loader.load();
             Scene scene = new Scene(pane);
 

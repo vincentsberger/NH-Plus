@@ -4,58 +4,70 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="loginSceneBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="926.0"
-   xmlns="http://javafx.com/javafx/21"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.scenes.LoginSceneController">
+<BorderPane fx:id="loginSceneBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="558.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.scenes.LoginSceneController">
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="325.0" prefWidth="436.0" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Willkommen bei NH-Plus">
                <font>
                   <Font size="30.0" />
                </font>
-            </Text>
-            <Text fx:id="errorMessageText" fill="#d00808" layoutX="289.0" layoutY="265.0" lineSpacing="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ErrorMessage" visible="false">
-               <font>
-                  <Font size="12.0" />
-               </font>
                <VBox.margin>
-                  <Insets top="24.0" />
+                  <Insets top="16.0" />
                </VBox.margin>
             </Text>
-            <GridPane alignment="center" hgap="10" vgap="10">
+            <GridPane alignment="center" hgap="10" prefHeight="226.0" prefWidth="558.0" vgap="10">
                <padding>
                   <Insets bottom="10" left="25" right="25" top="25" />
                </padding>
-               <Text text="Bitte melden Sie sich an:" GridPane.columnSpan="2" />
-               <Label text="Benutzername" GridPane.rowIndex="1" />
+               <Text fill="#a4a3a3" text="Bitte melden Sie sich an:" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+                  <font>
+                     <Font name="System Italic" size="11.0" />
+                  </font>
+                  <GridPane.margin>
+                     <Insets bottom="12.0" />
+                  </GridPane.margin></Text>
+               <Label text="Benutzername:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                <TextField fx:id="usernameField" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               <Label text="Passwort" GridPane.rowIndex="2" />
+               <Label text="Passwort:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                <PasswordField fx:id="passwordField" promptText="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <Text fx:id="badLoginMessageText" fill="#d00808" lineSpacing="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ErrorMessage" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <font>
+                     <Font size="12.0" />
+                  </font>
+                  <GridPane.margin>
+                     <Insets />
+                  </GridPane.margin>
+               </Text>
                <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
                   <Button alignment="TOP_LEFT" onAction="#handleSubmitButtonAction" text="Anmelden" />
                </HBox>
-               <Text fx:id="actiontarget" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+               <Text fx:id="badLoginCounterText" fill="#f80000" strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Fehlversuche: 1" visible="false" GridPane.rowIndex="4">
+                  <font>
+                     <Font name="System Italic" size="11.0" />
+                  </font>
+               </Text>
                <columnConstraints>
                   <ColumnConstraints />
                   <ColumnConstraints />
                </columnConstraints>
                <rowConstraints>
+                  <RowConstraints maxHeight="42.0" minHeight="16.0" prefHeight="39.0" />
                   <RowConstraints />
                   <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
+                  <RowConstraints maxHeight="10.0" minHeight="20.0" prefHeight="7.0" />
                   <RowConstraints />
                   <RowConstraints />
                </rowConstraints>
@@ -63,4 +75,42 @@
          </children>
       </VBox>
    </center>
+   <bottom>
+      <VBox prefHeight="25.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator prefWidth="200.0" />
+            <HBox alignment="CENTER" opacity="0.3" VBox.vgrow="NEVER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(c) 2024 HiTect GmbH, Meta-Sattler-Straße 33" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Region prefHeight="200.0" prefWidth="200.0" />
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Region prefHeight="200.0" prefWidth="200.0" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="279.0" text="Angemeldet als:">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nicht angemeldet" textAlignment="RIGHT" wrappingWidth="160.2529296875" HBox.hgrow="NEVER">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="12.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>

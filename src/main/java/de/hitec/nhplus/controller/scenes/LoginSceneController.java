@@ -4,6 +4,7 @@ import de.hitec.nhplus.controller.SceneController;
 import de.hitec.nhplus.utils.AuthentificationHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -21,7 +22,9 @@ public class LoginSceneController {
     @FXML
     private PasswordField passwordField;
     @FXML
-    private Text errorMessageText;
+    private Text badLoginMessageText;
+    @FXML
+    private Text badLoginCounterText;
 
     @FXML
     public void handleSubmitButtonAction(ActionEvent event) {
@@ -32,14 +35,17 @@ public class LoginSceneController {
             badLoginCounter++;
             usernameField.setText("");
             passwordField.setText("");
-            errorMessageText.setText("Fehler: Falscher Benutzername und/oder falsches Passwort! Anzahl Fehlversuche: " + badLoginCounter);
-            errorMessageText.setVisible(true);
+            badLoginMessageText.setText("Fehler: Falscher Benutzername und / oder falsches Passwort!");
+            badLoginCounterText.setText("Anzahl Fehlversuche: " + badLoginCounter);
+            badLoginMessageText.setVisible(true);
+            badLoginCounterText.setVisible(true);
             usernameField.requestFocus();
             return;
         }
-        SceneController controller = SceneController.getInstance();
-        Scene nextScene = controller.getSceneFromResource("DashboardScene.fxml");
-        controller.setScene(nextScene);
+        SceneController sceneController = SceneController.getInstance();
+        sceneController.setUser(usernameInput);
+        sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Übersicht");
+        sceneController.switchToMainScene();
     }
 
 }

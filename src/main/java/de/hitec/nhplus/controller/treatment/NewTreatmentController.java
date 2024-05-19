@@ -25,10 +25,16 @@ public class NewTreatmentController {
     private Label labelSurname;
 
     @FXML
-    private Label labelPflegerName;
+    private Label labelPflegerFullName;
 
     @FXML
-    private Label labelPflegerTelefon;
+    private Label labelPflegerTelephone;
+
+    @FXML
+    private Label labelPflegerId;
+
+    @FXML
+    private Label labelPatientId;
 
     @FXML
     private TextField textFieldBegin;
@@ -86,13 +92,15 @@ public class NewTreatmentController {
     }
 
     private void showPatientData() {
+        this.labelPatientId.setText("P" + Long.toString(patient.getPid()));
         this.labelFirstName.setText(patient.getFirstName());
         this.labelSurname.setText(patient.getSurname());
     }
 
     private void showCaregiverData() {
-        this.labelPflegerName.setText(caregiver.getSurname() + ", " + caregiver.getFirstName());
-        this.labelPflegerTelefon.setText(caregiver.getTelephone());
+        this.labelPflegerId.setText("C" + Long.toString(caregiver.getCid()));
+        this.labelPflegerFullName.setText(caregiver.getSurname() + ", " + caregiver.getFirstName());
+        this.labelPflegerTelephone.setText(caregiver.getTelephone());
     }
 
     @FXML
@@ -102,7 +110,7 @@ public class NewTreatmentController {
         LocalTime end = DateConverter.convertStringToLocalTime(textFieldEnd.getText());
         String description = textFieldDescription.getText();
         String remarks = textAreaRemarks.getText();
-        Treatment treatment = new Treatment(patient.getPid(), date, begin, end, description, remarks);
+        Treatment treatment = new Treatment(patient.getPid(), caregiver.getCid(), date, begin, end, description, remarks);
         createTreatment(treatment);
         controller.readAllAndShowInTableView();
         stage.close();

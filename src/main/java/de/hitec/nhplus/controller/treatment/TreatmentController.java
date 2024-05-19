@@ -18,15 +18,20 @@ import java.time.LocalDate;
 public class TreatmentController {
 
     @FXML
+    private Label labelPatientId;
+    @FXML
     private Label labelPatientName;
 
     @FXML
     private Label labelCareLevel;
 
     @FXML
+    private Label labelCaregiverId;
+
+    @FXML
     private Label labelCaregiverName;
 
-    @FXML 
+    @FXML
     Label labelCaregiverTelephone;
 
     @FXML
@@ -52,7 +57,7 @@ public class TreatmentController {
 
     public void initializeController(AllTreatmentController controller, Stage stage, Treatment treatment) {
         this.stage = stage;
-        this.controller= controller;
+        this.controller = controller;
         PatientDao pDao = DaoFactory.getDaoFactory().createPatientDAO();
         CaregiverDao cDao = DaoFactory.getDaoFactory().createCaregiverDao();
         try {
@@ -65,9 +70,11 @@ public class TreatmentController {
         }
     }
 
-    private void showData(){
-        this.labelPatientName.setText(patient.getSurname()+", "+patient.getFirstName());    
+    private void showData() {
+        this.labelPatientId.setText("P-000" + Long.toString(this.patient.getPid()));
+        this.labelPatientName.setText(patient.getSurname() + ", " + patient.getFirstName());
         this.labelCareLevel.setText(patient.getCareLevel());
+        this.labelCaregiverId.setText("C-000" + Long.toString(this.caregiver.getCid()));
         this.labelCaregiverName.setText(this.caregiver.getSurname() + ", " + this.caregiver.getFirstName());
         this.labelCaregiverTelephone.setText(this.caregiver.getTelephone());
         LocalDate date = DateConverter.convertStringToLocalDate(treatment.getDate());
@@ -79,7 +86,7 @@ public class TreatmentController {
     }
 
     @FXML
-    public void handleChange(){
+    public void handleChange() {
         this.treatment.setDate(this.datePicker.getValue().toString());
         this.treatment.setBegin(textFieldBegin.getText());
         this.treatment.setEnd(textFieldEnd.getText());
@@ -90,7 +97,7 @@ public class TreatmentController {
         stage.close();
     }
 
-    private void doUpdate(){
+    private void doUpdate() {
         TreatmentDao dao = DaoFactory.getDaoFactory().createTreatmentDao();
         try {
             dao.update(treatment);
@@ -100,7 +107,7 @@ public class TreatmentController {
     }
 
     @FXML
-    public void handleCancel(){
+    public void handleCancel() {
         stage.close();
     }
 }
