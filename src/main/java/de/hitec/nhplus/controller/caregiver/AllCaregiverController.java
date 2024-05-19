@@ -217,7 +217,7 @@ public class AllCaregiverController {
         // String passswort = this.textFieldPasswort.getText();
 
         try {
-            this.dao.create(new Caregiver(firstName, surname, date, telephone, "user"+telephone, "password"+telephone));
+            this.dao.create(new Caregiver(firstName, surname, date, telephone, "user"+firstName, "password"+firstName, false));
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

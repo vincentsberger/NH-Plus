@@ -5,13 +5,10 @@ import java.net.URL;
 
 import de.hitec.nhplus.Main;
 import de.hitec.nhplus.controller.scenes.MainSceneController;
-import de.hitec.nhplus.controller.treatment.NewTreatmentController;
 import de.hitec.nhplus.datastorage.ConnectionBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 

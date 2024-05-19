@@ -231,7 +231,7 @@ public class AllPatientController {
         String careLevel = this.textFieldCareLevel.getText();
         String roomNumber = this.textFieldRoomNumber.getText();
         try {
-            this.dao.create(new Patient(firstName, surname, date, careLevel, roomNumber));
+            this.dao.create(new Patient(firstName, surname, date, careLevel, roomNumber, false));
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
