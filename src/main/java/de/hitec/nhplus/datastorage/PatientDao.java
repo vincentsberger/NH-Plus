@@ -8,38 +8,45 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Implements the Interface <code>DaoImp</code>. Overrides methods to generate specific <code>PreparedStatements</code>,
+ * Implements the Interface <code>DaoImp</code>. Overrides methods to generate
+ * specific <code>PreparedStatements</code>,
  * to execute the specific SQL Statements.
  */
 public class PatientDao extends DaoImp<Patient> {
 
     /**
-     * The constructor initiates an object of <code>PatientDao</code> and passes the connection to its super class.
+     * The constructor initiates an object of <code>PatientDao</code> and passes the
+     * connection to its super class.
      *
-     * @param connection Object of <code>Connection</code> to execute the SQL-statements.
+     * @param connection Object of <code>Connection</code> to execute the
+     *                   SQL-statements.
      */
     public PatientDao(Connection connection) {
         super(connection);
     }
 
     /**
-     * Generates a <code>PreparedStatement</code> to persist the given object of <code>Patient</code>.
+     * Generates a <code>PreparedStatement</code> to persist the given object of
+     * <code>Patient</code>.
      *
      * @param patient Object of <code>Patient</code> to persist.
      * @return <code>PreparedStatement</code> to insert the given patient.
+     * 
      */
     @Override
     protected PreparedStatement getCreateStatement(Patient patient) {
         PreparedStatement preparedStatement = null;
         try {
-            final String SQL = "INSERT INTO patient (firstname, surname, dateOfBirth, carelevel, roomnumber) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+            final String SQL = "INSERT INTO patient (firstname, surname, dateOfBirth, carelevel, roomnumber, is_blocked) "
+                    +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, patient.getFirstName());
             preparedStatement.setString(2, patient.getSurname());
             preparedStatement.setString(3, patient.getDateOfBirth());
             preparedStatement.setString(4, patient.getCareLevel());
             preparedStatement.setString(5, patient.getRoomNumber());
+            preparedStatement.setBoolean(6, patient.isBlocked());
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -47,7 +54,8 @@ public class PatientDao extends DaoImp<Patient> {
     }
 
     /**
-     * Generates a <code>PreparedStatement</code> to query a patient by a given patient id (pid).
+     * Generates a <code>PreparedStatement</code> to query a patient by a given
+     * patient id (pid).
      *
      * @param pid Patient id to query.
      * @return <code>PreparedStatement</code> to query the patient.
@@ -66,10 +74,22 @@ public class PatientDao extends DaoImp<Patient> {
     }
 
     /**
-     * Maps a <code>ResultSet</code> of one patient to an object of <code>Patient</code>.
+     * Maps a <code>ResultSet</code> of one patient to an object of
+     * <code>Patient</code>.
+     * 
+     * columnIndex => prop name
+     * 1 => pid
+     * 2 => firstName
+     * 3 => surName
+     * 4 => dateOfBirth
+     * 5 => careLevel
+     * 6 => roomNumber
+     * 7 => isBlocked
      *
-     * @param result ResultSet with a single row. Columns will be mapped to an object of class <code>Patient</code>.
-     * @return Object of class <code>Patient</code> with the data from the resultSet.
+     * @param result ResultSet with a single row. Columns will be mapped to an
+     *               object of class <code>Patient</code>.
+     * @return Object of class <code>Patient</code> with the data from the
+     *         resultSet.
      */
     @Override
     protected Patient getInstanceFromResultSet(ResultSet result) throws SQLException {
@@ -79,7 +99,8 @@ public class PatientDao extends DaoImp<Patient> {
                 result.getString(3),
                 DateConverter.convertStringToLocalDate(result.getString(4)),
                 result.getString(5),
-                result.getString(6));
+                result.getString(6),
+                result.getBoolean(7));
     }
 
     /**
@@ -100,11 +121,23 @@ public class PatientDao extends DaoImp<Patient> {
     }
 
     /**
-     * Maps a <code>ResultSet</code> of all patients to an <code>ArrayList</code> of <code>Patient</code> objects.
+     * Maps a <code>ResultSet</code> of all patients to an <code>ArrayList</code> of
+     * <code>Patient</code> objects.
+     * 
+     * columnIndex => prop name
+     * 1 => pid
+     * 2 => firstName
+     * 3 => surName
+     * 4 => dateOfBirth
+     * 5 => careLevel
+     * 6 => roomNumber
+     * 7 => isBlocked
      *
-     * @param result ResultSet with all rows. The Columns will be mapped to objects of class <code>Patient</code>.
-     * @return <code>ArrayList</code> with objects of class <code>Patient</code> of all rows in the
-     * <code>ResultSet</code>.
+     * @param result ResultSet with all rows. The Columns will be mapped to objects
+     *               of class <code>Patient</code>.
+     * @return <code>ArrayList</code> with objects of class <code>Patient</code> of
+     *         all rows in the
+     *         <code>ResultSet</code>.
      */
     @Override
     protected ArrayList<Patient> getListFromResultSet(ResultSet result) throws SQLException {
@@ -113,14 +146,15 @@ public class PatientDao extends DaoImp<Patient> {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
             Patient patient = new Patient(result.getInt(1), result.getString(2),
                     result.getString(3), date,
-                    result.getString(5), result.getString(6));
+                    result.getString(5), result.getString(6), result.getBoolean(7));
             list.add(patient);
         }
         return list;
     }
 
     /**
-     * Generates a <code>PreparedStatement</code> to update the given patient, identified
+     * Generates a <code>PreparedStatement</code> to update the given patient,
+     * identified
      * by the id of the patient (pid).
      *
      * @param patient Patient object to update.
@@ -130,14 +164,14 @@ public class PatientDao extends DaoImp<Patient> {
     protected PreparedStatement getUpdateStatement(Patient patient) {
         PreparedStatement preparedStatement = null;
         try {
-            final String SQL =
-                    "UPDATE patient SET " +
-                            "firstname = ?, " +
-                            "surname = ?, " +
-                            "dateOfBirth = ?, " +
-                            "carelevel = ?, " +
-                            "roomnumber = ?, " +
-                            "WHERE pid = ?";
+            final String SQL = "UPDATE patient SET " +
+                    "firstname = ?, " +
+                    "surname = ?, " +
+                    "dateOfBirth = ?, " +
+                    "carelevel = ?, " +
+                    "roomnumber = ?, " +
+                    "is_blocked = ?, " +
+                    "WHERE pid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, patient.getFirstName());
             preparedStatement.setString(2, patient.getSurname());
@@ -145,6 +179,7 @@ public class PatientDao extends DaoImp<Patient> {
             preparedStatement.setString(4, patient.getCareLevel());
             preparedStatement.setString(5, patient.getRoomNumber());
             preparedStatement.setLong(6, patient.getPid());
+            preparedStatement.setBoolean(7, patient.isBlocked());
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -152,7 +187,8 @@ public class PatientDao extends DaoImp<Patient> {
     }
 
     /**
-     * Generates a <code>PreparedStatement</code> to delete a patient with the given id.
+     * Generates a <code>PreparedStatement</code> to delete a patient with the given
+     * id.
      *
      * @param pid Id of the patient to delete.
      * @return <code>PreparedStatement</code> to delete patient with the given id.

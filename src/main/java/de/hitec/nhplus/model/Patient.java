@@ -17,6 +17,7 @@ public class Patient extends Person {
     private final SimpleStringProperty careLevel;
     private final SimpleStringProperty roomNumber;
     private final List<Treatment> allTreatments = new ArrayList<>();
+    private Boolean isBlocked;
 
     /**
      * Constructor to initiate an object of class <code>Patient</code> with the given parameter. Use this constructor
@@ -27,13 +28,14 @@ public class Patient extends Person {
      * @param dateOfBirth Date of birth of the patient.
      * @param careLevel Care level of the patient.
      * @param roomNumber Room number of the patient.
-     * @param assets Assets of the patient.
+     * @param isBlocked Indicates whether the patient is blocked or not
      */
-    public Patient(String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber) {
+    public Patient(String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber, Boolean isBlocked) {
         super(firstName, surname);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.careLevel = new SimpleStringProperty(careLevel);
         this.roomNumber = new SimpleStringProperty(roomNumber);
+        this.isBlocked = isBlocked;
     }
 
     /**
@@ -46,17 +48,23 @@ public class Patient extends Person {
      * @param dateOfBirth Date of birth of the patient.
      * @param careLevel Care level of the patient.
      * @param roomNumber Room number of the patient.
+     * @param isBlocked Indicates whether the patient is blocked or not
      */
-    public Patient(long pid, String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber) {
+    public Patient(long pid, String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber, Boolean isBlocked) {
         super(firstName, surname);
         this.pid = new SimpleLongProperty(pid);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.careLevel = new SimpleStringProperty(careLevel);
         this.roomNumber = new SimpleStringProperty(roomNumber);
+        this.isBlocked = isBlocked;
     }
 
     public long getPid() {
         return pid.get();
+    }
+
+    public Boolean isBlocked() {
+        return this.isBlocked;
     }
 
     public SimpleLongProperty pidProperty() {

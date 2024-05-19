@@ -36,10 +36,10 @@ public class SetUpDB {
                 Connection connection = ConnectionBuilder.getConnection();
                 SetUpDB.wipeDb(connection);
                 SetUpDB.setUpTableCaregiver(connection);
-                SetUpDB.setUpCaregiver();
                 SetUpDB.setUpTablePatient(connection);
-                SetUpDB.setUpPatients();
                 SetUpDB.setUpTableTreatment(connection);
+                SetUpDB.setUpCaregiver();
+                SetUpDB.setUpPatients();
                 SetUpDB.setUpTreatments();
         }
 
@@ -63,7 +63,8 @@ public class SetUpDB {
                                 "   surname TEXT NOT NULL, " +
                                 "   dateOfBirth TEXT NOT NULL, " +
                                 "   carelevel TEXT NOT NULL, " +
-                                "   roomnumber TEXT NOT NULL " +
+                                "   roomnumber TEXT NOT NULL, " +
+                                "   is_blocked BOOLEAN NOT NULL " +
                                 ");";
                 try (Statement statement = connection.createStatement()) {
                         statement.execute(SQL);
@@ -117,15 +118,17 @@ public class SetUpDB {
                 try {
                         PatientDao dao = DaoFactory.getDaoFactory().createPatientDAO();
                         dao.create(new Patient("Seppl", "Herberger", convertStringToLocalDate("1945-12-01"), "4",
-                                        "202"));
+                                        "202", false));
                         dao.create(new Patient("Martina", "Gerdsen", convertStringToLocalDate("1954-08-12"), "5",
-                                        "010"));
+                                        "010", false));
                         dao.create(new Patient("Gertrud", "Franzen", convertStringToLocalDate("1949-04-16"), "3",
-                                        "002"));
-                        dao.create(new Patient("Ahmet", "Yilmaz", convertStringToLocalDate("1941-02-22"), "3", "013"));
-                        dao.create(new Patient("Hans", "Neumann", convertStringToLocalDate("1955-12-12"), "2", "001"));
+                                        "002", false));
+                        dao.create(new Patient("Ahmet", "Yilmaz", convertStringToLocalDate("1941-02-22"), "3", "013",
+                                        false));
+                        dao.create(new Patient("Hans", "Neumann", convertStringToLocalDate("1955-12-12"), "2", "001",
+                                        false));
                         dao.create(new Patient("Elisabeth", "Müller", convertStringToLocalDate("1958-03-07"), "5",
-                                        "110"));
+                                        "110", false));
                 } catch (SQLException exception) {
                         exception.printStackTrace();
                 }
@@ -158,18 +161,18 @@ public class SetUpDB {
                                         convertStringToLocalTime("11:00"),
                                         convertStringToLocalTime("11:30"), "Waschen",
                                         "Waschen per Dusche auf einem Stuhl; Patientin gewendet;"));
-                        dao.create(new Treatment(3, 5, convertStringToLocalDate("2023-06-08"),
+                        dao.create(new Treatment(3, 3, convertStringToLocalDate("2023-06-08"),
                                         convertStringToLocalTime("15:00"),
                                         convertStringToLocalTime("15:30"), "Physiotherapie",
                                         "Übungen zur Stabilisation und Mobilisierung der Rückenmuskulatur"));
-                        dao.create(new Treatment(2, 5, convertStringToLocalDate("2023-08-24"),
+                        dao.create(new Treatment(2, 3, convertStringToLocalDate("2023-08-24"),
                                         convertStringToLocalTime("09:30"),
                                         convertStringToLocalTime("10:15"), "KG", "Lympfdrainage"));
-                        dao.create(new Treatment(1, 6, convertStringToLocalDate("2023-08-31"),
+                        dao.create(new Treatment(1, 4, convertStringToLocalDate("2023-08-31"),
                                         convertStringToLocalTime("13:30"),
                                         convertStringToLocalTime("13:45"), "Toilettengang",
                                         "Hilfe beim Toilettengang; Patientin klagt über Schmerzen beim Stuhlgang. Gabe von Iberogast"));
-                        dao.create(new Treatment(4, 6, convertStringToLocalDate("2023-09-01"),
+                        dao.create(new Treatment(4, 1, convertStringToLocalDate("2023-09-01"),
                                         convertStringToLocalTime("16:00"),
                                         convertStringToLocalTime("17:00"), "KG",
                                         "Massage der Extremitäten zur Verbesserung der Durchblutung"));
