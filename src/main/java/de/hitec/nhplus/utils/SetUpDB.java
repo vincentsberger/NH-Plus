@@ -180,7 +180,7 @@ public class SetUpDB {
         private static void setUpCaregiver() {
                 try {
                         CaregiverDao dao = DaoFactory.getDaoFactory().createCaregiverDao();
-                        dao.create(new Caregiver("Vincent", "Simonsbreger", convertStringToLocalDate("1945-12-01"),
+                        dao.create(new Caregiver("Vincent", "Simonsberger", convertStringToLocalDate("1945-12-01"),
                                         "0123456789", "vincent", "passwort123"));
                         dao.create(new Caregiver("Fokko", "Elberfeldt", convertStringToLocalDate("1954-08-12"),
                                         "13371337", "fokko", "passwort123"));

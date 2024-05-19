@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class MainSceneController {
 
-    SceneController sceneController;
+    private SceneController sceneController;
 
     @FXML
     private BorderPane mainSceneBorderPane;
@@ -21,6 +21,7 @@ public class MainSceneController {
 
     public void initialize(String user) {
         this.userInfoText.setText(user);
+        this.sceneController = SceneController.getInstance();
     }
 
     @FXML
@@ -29,7 +30,7 @@ public class MainSceneController {
                 Main.class.getResource("/de/hitec/nhplus/views/patient/AllPatientView.fxml"));
         try {
             mainSceneBorderPane.setCenter(loader.load());
-            sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Patient/innen");
+            this.sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Patient/innen");
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -41,7 +42,7 @@ public class MainSceneController {
                 Main.class.getResource("/de/hitec/nhplus/views/treatment/AllTreatmentView.fxml"));
         try {
             mainSceneBorderPane.setCenter(loader.load());
-            sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Behandlungen");
+            this.sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Behandlungen");
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class MainSceneController {
                 Main.class.getResource("/de/hitec/nhplus/views/caregiver/AllCaregiverView.fxml"));
         try {
             mainSceneBorderPane.setCenter(loader.load());
-            sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Pfleger/innen");
+            this.sceneController.getStage().setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Pfleger/innen");
         } catch (IOException exception) {
             exception.printStackTrace();
         }
