@@ -78,9 +78,10 @@ public class SetUpDB {
                                 "   firstname TEXT NOT NULL, " +
                                 "   surname TEXT NOT NULL, " +
                                 "   dateOfBirth TEXT NOT NULL, " +
-                                "   telephone TEXT NOT NULL," +
-                                "   username TEXT NOT NULL," +
-                                "   password TEXT NOT NULL" +
+                                "   telephone TEXT NOT NULL, " +
+                                "   username TEXT NOT NULL, " +
+                                "   password TEXT NOT NULL, " +
+                                "   is_blocked BOOLEAN NOT NULL " +
                                 ");";
 
                 try (Statement statement = connection.createStatement()) {
@@ -181,13 +182,13 @@ public class SetUpDB {
                 try {
                         CaregiverDao dao = DaoFactory.getDaoFactory().createCaregiverDao();
                         dao.create(new Caregiver("Vincent", "Simonsberger", convertStringToLocalDate("1945-12-01"),
-                                        "0123456789", "vincent", "passwort123"));
+                                        "0123456789", "vincent", "passwort123", false));
                         dao.create(new Caregiver("Fokko", "Elberfeldt", convertStringToLocalDate("1954-08-12"),
-                                        "13371337", "fokko", "passwort123"));
+                                        "13371337", "fokko", "passwort123", false));
                         dao.create(new Caregiver("Nikito", "Hertrampf", convertStringToLocalDate("1949-04-16"),
-                                        "18991899", "nikita", "passwort123"));
+                                        "18991899", "nikita", "passwort123", false));
                         dao.create(new Caregiver("Oliver", "Koch", convertStringToLocalDate("1941-02-22"),
-                                        "0123456789", "oliver", "passwort123"));
+                                        "0123456789", "oliver", "passwort123", false));
                 } catch (SQLException exception) {
                         exception.printStackTrace();
                 }

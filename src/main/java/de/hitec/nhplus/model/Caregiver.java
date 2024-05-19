@@ -16,23 +16,26 @@ public class Caregiver extends Person {
     private final SimpleStringProperty telephone;
     private String username;
     private String password;
+    private Boolean isBlocked;
 
 
-    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password) {
+    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password, Boolean isBlocked) {
         super(firstName, surname);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.telephone = new SimpleStringProperty(telephone);
         this.username = username;
         this.password = password;
+        this.isBlocked = isBlocked;
     }
 
-    public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password) {
+    public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password, Boolean isBlocked) {
         super(firstName, surname);
         this.cid = new SimpleLongProperty(cid);
         this.telephone = new SimpleStringProperty(telephone);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.username = username;
         this.password = password;
+        this.isBlocked = isBlocked;
     }
 
     public String getUsername() {
@@ -41,6 +44,10 @@ public class Caregiver extends Person {
 
     public String getPassword() {
         return this.password;
+    }
+
+    public Boolean isBlocked() {
+        return this.isBlocked;
     }
 
     public long getCid() {
