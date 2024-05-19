@@ -1,6 +1,7 @@
 package de.hitec.nhplus.model;
 
 import de.hitec.nhplus.utils.DateConverter;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -17,7 +18,7 @@ public class Patient extends Person {
     private final SimpleStringProperty careLevel;
     private final SimpleStringProperty roomNumber;
     private final List<Treatment> allTreatments = new ArrayList<>();
-    private Boolean isBlocked;
+    private SimpleBooleanProperty isBlocked;
 
     /**
      * Constructor to initiate an object of class <code>Patient</code> with the given parameter. Use this constructor
@@ -35,7 +36,7 @@ public class Patient extends Person {
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.careLevel = new SimpleStringProperty(careLevel);
         this.roomNumber = new SimpleStringProperty(roomNumber);
-        this.isBlocked = isBlocked;
+        this.isBlocked = new SimpleBooleanProperty(isBlocked);
     }
 
     /**
@@ -56,7 +57,7 @@ public class Patient extends Person {
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.careLevel = new SimpleStringProperty(careLevel);
         this.roomNumber = new SimpleStringProperty(roomNumber);
-        this.isBlocked = isBlocked;
+        this.isBlocked = new SimpleBooleanProperty(isBlocked);
     }
 
     public long getPid() {
@@ -64,11 +65,15 @@ public class Patient extends Person {
     }
 
     public Boolean isBlocked() {
+        return this.isBlocked.get();
+    }
+
+    public SimpleBooleanProperty isBlockedProperty() {
         return this.isBlocked;
     }
 
     public SimpleLongProperty pidProperty() {
-        return pid;
+        return this.pid;
     }
 
     public String getDateOfBirth() {
@@ -135,5 +140,9 @@ public class Patient extends Person {
                 "\nCarelevel: " + this.careLevel +
                 "\nRoomnumber: " + this.roomNumber +
                 "\n";
+    }
+
+    public void setIsBlocked(Boolean isBlocked) {
+        this.isBlocked.set(isBlocked);
     }
 }

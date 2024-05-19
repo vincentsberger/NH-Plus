@@ -3,14 +3,17 @@ package de.hitec.nhplus.controller.patient;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.datastorage.PatientDao;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import de.hitec.nhplus.model.Patient;
@@ -47,6 +50,9 @@ public class AllPatientController {
     private TableColumn<Patient, String> columnRoomNumber;
 
     @FXML
+    private TableColumn<Patient, Boolean> columnIsBlocked;
+
+    @FXML
     private Button buttonDelete;
 
     @FXML
@@ -66,6 +72,9 @@ public class AllPatientController {
 
     @FXML
     private TextField textFieldRoomNumber;
+
+    @FXML
+    private CheckBox checkboxIsBlocked;
 
     private final ObservableList<Patient> patients = FXCollections.observableArrayList();
     private PatientDao dao;
@@ -95,7 +104,10 @@ public class AllPatientController {
         this.columnCareLevel.setCellFactory(TextFieldTableCell.forTableColumn());
 
         this.columnRoomNumber.setCellValueFactory(new PropertyValueFactory<>("roomNumber"));
-        this.columnRoomNumber.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.columnRoomNumber.setCellFactory(TextFieldTableCell.forTableColumn());       
+        
+        this.columnIsBlocked.setCellValueFactory(new PropertyValueFactory<>("isBlocked"));
+        this.columnIsBlocked.setCellFactory(CheckBoxTableCell.forTableColumn(this.columnIsBlocked));
 
         //Anzeigen der Daten
         this.tableView.setItems(this.patients);
@@ -170,6 +182,12 @@ public class AllPatientController {
     public void handleOnEditRoomNumber(TableColumn.CellEditEvent<Patient, String> event){
         event.getRowValue().setRoomNumber(event.getNewValue());
         this.doUpdate(event);
+    }
+
+    @FXML
+    public void handleOnEditIsBlocked(TableColumn.CellEditEvent<Patient, ObservableBooleanValue> event) {
+        // todo
+        event.getRowValue().setIsBlocked(event.getNewValue().getValue());
     }
 
     /**

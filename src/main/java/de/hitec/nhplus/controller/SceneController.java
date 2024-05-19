@@ -1,6 +1,7 @@
 package de.hitec.nhplus.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import de.hitec.nhplus.Main;
@@ -9,6 +10,8 @@ import de.hitec.nhplus.datastorage.ConnectionBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.effect.ImageInput;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -41,6 +44,11 @@ public final class SceneController {
         this.stage.setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Login");
         this.stage.setScene(this.startScene);
         this.stage.setResizable(false);
+        Image appIconImage = new Image(getClass().getResourceAsStream("AppIcon.jpg"));
+        System.out.println("rrr");
+        System.out.println("tdsfs");
+        this.stage.getIcons().add((appIconImage));
+        this.stage.centerOnScreen();
         this.stage.show();
         this.stage.setOnCloseRequest(event -> {
             ConnectionBuilder.closeConnection();
@@ -59,6 +67,7 @@ public final class SceneController {
             controller.initialize(this.getUser());
 
             this.stage.setScene(mainScene);
+            this.stage.centerOnScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }
