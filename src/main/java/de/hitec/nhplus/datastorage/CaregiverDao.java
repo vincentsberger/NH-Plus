@@ -171,18 +171,19 @@ public class CaregiverDao extends DaoImp<Caregiver> {
         PreparedStatement preparedStatement = null;
         try {
             final String SQL = "UPDATE caregiver SET " +
-                    "firstname = ?, " +
-                    "surname = ?, " +
-                    "dateOfBirth = ?, " +
-                    "telephone = ?, " +
-                    "is_blocked = ? " +
-                    "WHERE cid = ?";
+                    "firstname=?, " +
+                    "surname=?, " +
+                    "dateOfBirth=?, " +
+                    "telephone=?, " +
+                    "is_blocked=? " +
+                    "WHERE cid=?";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, caregiver.getFirstName());
             preparedStatement.setString(2, caregiver.getSurname());
             preparedStatement.setString(3, caregiver.getDateOfBirth());
             preparedStatement.setString(4, caregiver.getTelephone());
             preparedStatement.setBoolean(5, caregiver.isBlocked());
+            preparedStatement.setLong(6, caregiver.getCid());
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

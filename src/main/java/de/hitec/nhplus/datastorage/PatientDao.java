@@ -178,8 +178,8 @@ public class PatientDao extends DaoImp<Patient> {
             preparedStatement.setString(3, patient.getDateOfBirth());
             preparedStatement.setString(4, patient.getCareLevel());
             preparedStatement.setString(5, patient.getRoomNumber());
-            preparedStatement.setLong(6, patient.getPid());
-            preparedStatement.setBoolean(7, patient.isBlocked());
+            preparedStatement.setBoolean(6, patient.isBlocked());
+            preparedStatement.setLong(7, patient.getPid());
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

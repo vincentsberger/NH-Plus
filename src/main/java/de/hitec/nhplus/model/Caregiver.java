@@ -47,7 +47,7 @@ public class Caregiver extends Person {
         return this.password;
     }
 
-    public Boolean isBlocked() {
+    public boolean isBlocked() {
         return this.isBlocked.get();
     }
 

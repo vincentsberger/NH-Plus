@@ -5,7 +5,6 @@ import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.model.Caregiver;
 import de.hitec.nhplus.model.Patient;
-import de.hitec.nhplus.utils.DateConverter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,7 +25,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 /**
  * The <code>AllPatientController</code> contains the entire logic of the
@@ -231,52 +229,15 @@ public class AllCaregiverController {
     @FXML
     public void handleBlock() {
         Caregiver selectedItem = this.tableView.getSelectionModel().getSelectedItem();
-        selectedItem.setIsBlocked(!selectedItem.isBlocked());
         if (selectedItem != null) {
             try {
+                selectedItem.setIsBlocked(!selectedItem.isBlocked());
                 this.dao.update(selectedItem);
                 readAllAndShowInTableView();
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
         }
-    }
-
-    /**
-     * This method handles the events fired by the button to add a patient. It
-     * collects the data from the
-     * <code>TextField</code>s, creates an object of class <code>Patient</code> of
-     * it and passes the object to
-     * {@link CaregiverDao} to persist the data.
-     */
-    @FXML
-    public void handleAddNewCaregiver() {
-        String surname = this.textFieldSurname.getText();
-        String firstName = this.textFieldFirstName.getText();
-        String birthday = this.textFieldDateOfBirth.getText();
-        LocalDate date = DateConverter.convertStringToLocalDate(birthday);
-        String telephone = this.textFieldTelephone.getText();
-        // String username = this.textFieldUsername.getText();
-        // String passswort = this.textFieldPasswort.getText();
-
-        try {
-            this.dao.create(new Caregiver(firstName, surname, date, telephone, "user" + firstName,
-                    "password" + firstName, false));
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        readAllAndShowInTableView();
-        clearTextfields();
-    }
-
-    /**
-     * Clears all contents from all <code>TextField</code>s.
-     */
-    private void clearTextfields() {
-        this.textFieldFirstName.clear();
-        this.textFieldSurname.clear();
-        this.textFieldDateOfBirth.clear();
-        this.textFieldTelephone.clear();
     }
 
     @FXML
