@@ -1,13 +1,13 @@
-package de.hitec.nhplus.controller.caregiver;
+package de.hitec.nhplus.controller.patient;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import de.hitec.nhplus.controller.caregiver.NewCaregiverController;
-import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
-import de.hitec.nhplus.model.Caregiver;
+import de.hitec.nhplus.datastorage.PatientDao;
+import de.hitec.nhplus.model.Patient;
 import de.hitec.nhplus.utils.DateConverter;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-public class NewCaregiverController {
+public class NewPatientController {
 
     @FXML
     private Label labelFirstName;
@@ -44,16 +44,16 @@ public class NewCaregiverController {
     private TextField textFieldSurname;
 
     @FXML
-    private TextField textFieldTelephone;
-    
-    @FXML
-    private TextField textFieldUsername;
-
-    @FXML
-    private TextField textFieldPassword;
-    @FXML
     private DatePicker datePicker;
 
+    @FXML
+    private TextField textFieldCareLevel;
+
+    @FXML
+    private TextField textFieldRoomNumber;
+
+    @FXML
+    private SimpleBooleanProperty isBlocked;
 
     @FXML
     private Button buttonAdd;
@@ -64,16 +64,16 @@ public class NewCaregiverController {
         this.stage = stage;
 
         this.buttonAdd.setDisable(true);
-        ChangeListener<String> inputNewCaregiverListener = (observableValue, oldText,
-                newText) -> NewCaregiverController.this.buttonAdd
-                        .setDisable(!NewCaregiverController.this.areInputDataValid());
-        this.textFieldFirstName.textProperty().addListener(inputNewCaregiverListener);
-        this.textFieldSurname.textProperty().addListener(inputNewCaregiverListener);
-        this.textFieldUsername.textProperty().addListener(inputNewCaregiverListener);
-        this.textFieldPassword.textProperty().addListener(inputNewCaregiverListener);
+        ChangeListener<String> inputNewPatientListener = (observableValue, oldText,
+                newText) -> NewPatientController.this.buttonAdd
+                        .setDisable(!NewPatientController.this.areInputDataValid());
+        this.textFieldFirstName.textProperty().addListener(inputNewPatientListener);
+        this.textFieldSurname.textProperty().addListener(inputNewPatientListener);
+        this.textFieldCareLevel.textProperty().addListener(inputNewPatientListener);
+        this.textFieldRoomNumber.textProperty().addListener(inputNewPatientListener);
         this.datePicker.valueProperty()
-                .addListener((observableValue, localDate, t1) -> NewCaregiverController.this.buttonAdd
-                        .setDisable(!NewCaregiverController.this.areInputDataValid()));
+                .addListener((observableValue, localDate, t1) -> NewPatientController.this.buttonAdd
+                        .setDisable(!NewPatientController.this.areInputDataValid()));
         this.datePicker.setConverter(new StringConverter<>() {
             @Override
             public String toString(LocalDate localDate) {
@@ -89,36 +89,37 @@ public class NewCaregiverController {
 
     @FXML
     public void handleAdd() {
-        
+
         String surname = this.textFieldSurname.getText();
         String firstName = this.textFieldFirstName.getText();
         LocalDate dateOfBirth = this.datePicker.getValue();
-        String telephone = this.textFieldTelephone.getText();
-        String username = this.textFieldUsername.getText();
-        String password = this.textFieldPassword.getText();
-        Caregiver newCaregiver = new Caregiver(firstName, surname, dateOfBirth, telephone, username, password, false);
-        createCaregiver(newCaregiver);
+        String careLevel = this.textFieldCareLevel.getText();
+        String roomnumber = this.textFieldRoomNumber.getText();
+        Boolean isBlocked = false;
+        Patient newPatient = new Patient(firstName, surname, dateOfBirth, careLevel, roomnumber, isBlocked);
+        createPatient(newPatient);
         clearTextfields();
         stage.close();
     }
 
-    private void createCaregiver(Caregiver caregiver) {
-        CaregiverDao dao = DaoFactory.getDaoFactory().createCaregiverDao();
+    private void createPatient(Patient patient) {
+        PatientDao dao = DaoFactory.getDaoFactory().createPatientDAO();
         try {
-            dao.create(caregiver);
+            dao.create(patient);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
-        /**
+    /**
      * Clears all contents from all <code>TextField</code>s.
      */
     private void clearTextfields() {
         this.textFieldFirstName.clear();
         this.textFieldSurname.clear();
         this.datePicker.setValue(null);
-        this.textFieldTelephone.clear();
+        this.textFieldCareLevel.clear();
+        this.textFieldRoomNumber.clear();
     }
 
     @FXML
@@ -136,6 +137,6 @@ public class NewCaregiverController {
         }
 
         return !this.textFieldFirstName.getText().isBlank() && !this.textFieldSurname.getText().isBlank() &&
-                !this.datePicker.toString().isEmpty() && !this.textFieldTelephone.getText().isBlank();
+                !this.datePicker.toString().isEmpty() && !this.textFieldCareLevel.getText().isBlank() && !this.textFieldRoomNumber.getText().isBlank();
     }
 }

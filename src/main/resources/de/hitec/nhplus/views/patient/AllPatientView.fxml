@@ -5,17 +5,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.patient.AllPatientController">
+<AnchorPane prefHeight="523.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.patient.AllPatientController">
    <children>
-      <TableView fx:id="tableView" editable="true" layoutX="31.0" layoutY="120.0" prefHeight="287.0" prefWidth="825.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="80.0">
+      <TableView fx:id="tableView" editable="true" layoutX="31.0" layoutY="120.0" prefHeight="278.0" prefWidth="825.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="110.0">
          <columns>
             <TableColumn fx:id="columnId" maxWidth="1200.0" minWidth="5.0" prefWidth="5.0" text="ID" />
             <TableColumn fx:id="columnSurname" maxWidth="7500.0" minWidth="20.0" onEditCommit="#handleOnEditSurname" prefWidth="100.0" text="Nachname" />
@@ -23,7 +23,7 @@
             <TableColumn fx:id="columnDateOfBirth" maxWidth="7500.0" onEditCommit="#handleOnEditDateOfBirth" prefWidth="75.0" text="Geburtstag" />
             <TableColumn fx:id="columnCareLevel" onEditCommit="#handleOnEditCareLevel" prefWidth="75.0" text="Pflegegrad" />
             <TableColumn fx:id="columnRoomNumber" onEditCommit="#handleOnEditRoomNumber" prefWidth="75.0" text="Raum" />
-            <TableColumn fx:id="columnIsBlocked" editable="false" onEditCommit="#handleOnEditIsBlocked" prefWidth="75.0" text="gesperrt" />
+            <TableColumn fx:id="columnIsBlocked" editable="false" prefWidth="75.0" text="gesperrt" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -31,36 +31,37 @@
       </TableView>
       <HBox layoutX="623.0" layoutY="419.3999938964844" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <GridPane hgap="10.0" vgap="10.0">
+            <GridPane hgap="10.0" prefHeight="109.0" prefWidth="825.0" vgap="10.0">
                <columnConstraints>
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" prefWidth="200.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="200.0" prefWidth="200.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="160.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="132.0" minWidth="73.0" prefWidth="73.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="193.0" minWidth="69.0" prefWidth="155.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="286.0" minWidth="38.0" prefWidth="38.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="271.0" minWidth="154.0" prefWidth="271.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="246.0" minWidth="25.0" prefWidth="40.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="196.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="19.0" minHeight="4.0" prefHeight="7.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="6.0" prefHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
-               <children>
-                  <TextField fx:id="textFieldSurname" minWidth="200.0" prefHeight="26.0" prefWidth="200.0" promptText="Nachname" GridPane.columnIndex="1" />
-                  <TextField fx:id="textFieldFirstName" minWidth="200.0" prefHeight="26.0" prefWidth="200.0" promptText="Vorname" />
-                  <TextField fx:id="textFieldDateOfBirth" minWidth="160.0" prefWidth="160.0" promptText="Geburtstag" GridPane.columnIndex="2" />
-                  <TextField fx:id="textFieldCareLevel" prefHeight="26.0" prefWidth="200.0" promptText="Pflegegrad" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldRoomNumber" prefHeight="26.0" prefWidth="200.0" promptText="Raum" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               </children>
                <padding>
                   <Insets right="10.0" />
                </padding>
                <HBox.margin>
                   <Insets />
                </HBox.margin>
-            </GridPane>
-            <HBox alignment="TOP_CENTER" prefWidth="190.0" spacing="10.0">
                <children>
-                  <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#handleAdd" prefWidth="90.0" text="Hinzufügen" />
-                  <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#handleDelete" prefWidth="90.0" text="Löschen" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Auswahl" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#handleDelete" text="Löschen" GridPane.rowIndex="1" />
+                  <Button fx:id="buttonBlock" mnemonicParsing="false" onAction="#handleBlock" prefHeight="24.0" prefWidth="147.0" text="Sperren/Entsperren" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#handleAddNewPatientButton" prefHeight="24.0" prefWidth="255.0" text="Neuen Patienten anlegen" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                </children>
-            </HBox>
+            </GridPane>
          </children>
       </HBox>
       <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefWidth="200.0" spacing="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">

@@ -170,7 +170,7 @@ public class PatientDao extends DaoImp<Patient> {
                     "dateOfBirth = ?, " +
                     "carelevel = ?, " +
                     "roomnumber = ?, " +
-                    "is_blocked = ?, " +
+                    "is_blocked = ? " +
                     "WHERE pid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, patient.getFirstName());

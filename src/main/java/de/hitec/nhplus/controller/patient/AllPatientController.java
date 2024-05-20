@@ -1,13 +1,15 @@
 package de.hitec.nhplus.controller.patient;
 
+import de.hitec.nhplus.Main;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.datastorage.PatientDao;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
@@ -16,15 +18,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import de.hitec.nhplus.model.Patient;
 import de.hitec.nhplus.utils.DateConverter;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-
 /**
- * The <code>AllPatientController</code> contains the entire logic of the patient view. It determines which data is displayed and how to react to events.
+ * The <code>AllPatientController</code> contains the entire logic of the
+ * patient view. It determines which data is displayed and how to react to
+ * events.
  */
 public class AllPatientController {
 
@@ -59,6 +65,9 @@ public class AllPatientController {
     private Button buttonAdd;
 
     @FXML
+    private Button buttonBlock;
+
+    @FXML
     private TextField textFieldSurname;
 
     @FXML
@@ -80,8 +89,10 @@ public class AllPatientController {
     private PatientDao dao;
 
     /**
-     * When <code>initialize()</code> gets called, all fields are already initialized. For example from the FXMLLoader
-     * after loading an FXML-File. At this point of the lifecycle of the Controller, the fields can be accessed and
+     * When <code>initialize()</code> gets called, all fields are already
+     * initialized. For example from the FXMLLoader
+     * after loading an FXML-File. At this point of the lifecycle of the Controller,
+     * the fields can be accessed and
      * configured.
      */
     public void initialize() {
@@ -104,33 +115,29 @@ public class AllPatientController {
         this.columnCareLevel.setCellFactory(TextFieldTableCell.forTableColumn());
 
         this.columnRoomNumber.setCellValueFactory(new PropertyValueFactory<>("roomNumber"));
-        this.columnRoomNumber.setCellFactory(TextFieldTableCell.forTableColumn());       
-        
+        this.columnRoomNumber.setCellFactory(TextFieldTableCell.forTableColumn());
+
         this.columnIsBlocked.setCellValueFactory(new PropertyValueFactory<>("isBlocked"));
         this.columnIsBlocked.setCellFactory(CheckBoxTableCell.forTableColumn(this.columnIsBlocked));
 
-        //Anzeigen der Daten
+        // Anzeigen der Daten
         this.tableView.setItems(this.patients);
 
         this.buttonDelete.setDisable(true);
+        this.buttonBlock.setDisable(true);
         this.tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
             @Override
-            public void changed(ObservableValue<? extends Patient> observableValue, Patient oldPatient, Patient newPatient) {;
+            public void changed(ObservableValue<? extends Patient> observableValue, Patient oldPatient,
+                    Patient newPatient) {
                 AllPatientController.this.buttonDelete.setDisable(newPatient == null);
+                AllPatientController.this.buttonBlock.setDisable(newPatient == null);
             }
         });
-
-        this.buttonAdd.setDisable(true);
-        ChangeListener<String> inputNewPatientListener = (observableValue, oldText, newText) ->
-                AllPatientController.this.buttonAdd.setDisable(!AllPatientController.this.areInputDataValid());
-        this.textFieldSurname.textProperty().addListener(inputNewPatientListener);
-        this.textFieldFirstName.textProperty().addListener(inputNewPatientListener);
-        this.textFieldDateOfBirth.textProperty().addListener(inputNewPatientListener);
-        this.textFieldCareLevel.textProperty().addListener(inputNewPatientListener);
     }
 
     /**
-     * When a cell of the column with first names was changed, this method will be called, to persist the change.
+     * When a cell of the column with first names was changed, this method will be
+     * called, to persist the change.
      *
      * @param event Event including the changed object and the change.
      */
@@ -141,7 +148,8 @@ public class AllPatientController {
     }
 
     /**
-     * When a cell of the column with surnames was changed, this method will be called, to persist the change.
+     * When a cell of the column with surnames was changed, this method will be
+     * called, to persist the change.
      *
      * @param event Event including the changed object and the change.
      */
@@ -152,7 +160,8 @@ public class AllPatientController {
     }
 
     /**
-     * When a cell of the column with dates of birth was changed, this method will be called, to persist the change.
+     * When a cell of the column with dates of birth was changed, this method will
+     * be called, to persist the change.
      *
      * @param event Event including the changed object and the change.
      */
@@ -163,7 +172,8 @@ public class AllPatientController {
     }
 
     /**
-     * When a cell of the column with care levels was changed, this method will be called, to persist the change.
+     * When a cell of the column with care levels was changed, this method will be
+     * called, to persist the change.
      *
      * @param event Event including the changed object and the change.
      */
@@ -174,24 +184,41 @@ public class AllPatientController {
     }
 
     /**
-     * When a cell of the column with room numbers was changed, this method will be called, to persist the change.
+     * When a cell of the column with room numbers was changed, this method will be
+     * called, to persist the change.
      *
      * @param event Event including the changed object and the change.
      */
     @FXML
-    public void handleOnEditRoomNumber(TableColumn.CellEditEvent<Patient, String> event){
+    public void handleOnEditRoomNumber(TableColumn.CellEditEvent<Patient, String> event) {
         event.getRowValue().setRoomNumber(event.getNewValue());
         this.doUpdate(event);
     }
 
+    /**
+     * This method handles events fired by the button to delete patients. It calls
+     * {@link PatientDao} to delete the
+     * patient from the database and removes the object from the list, which is the
+     * data source of the
+     * <code>TableView</code>.
+     */
     @FXML
-    public void handleOnEditIsBlocked(TableColumn.CellEditEvent<Patient, ObservableBooleanValue> event) {
-        // todo
-        event.getRowValue().setIsBlocked(event.getNewValue().getValue());
+    public void handleBlock() {
+        Patient selectedItem = this.tableView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            try {
+                selectedItem.setIsBlocked(!selectedItem.isBlocked());
+                this.dao.update(selectedItem);
+                readAllAndShowInTableView();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 
     /**
-     * Updates a patient by calling the method <code>update()</code> of {@link PatientDao}.
+     * Updates a patient by calling the method <code>update()</code> of
+     * {@link PatientDao}.
      *
      * @param event Event including the changed object and the change.
      */
@@ -204,7 +231,8 @@ public class AllPatientController {
     }
 
     /**
-     * Reloads all patients to the table by clearing the list of all patients and filling it again by all persisted
+     * Reloads all patients to the table by clearing the list of all patients and
+     * filling it again by all persisted
      * patients, delivered by {@link PatientDao}.
      */
     private void readAllAndShowInTableView() {
@@ -218,8 +246,10 @@ public class AllPatientController {
     }
 
     /**
-     * This method handles events fired by the button to delete patients. It calls {@link PatientDao} to delete the
-     * patient from the database and removes the object from the list, which is the data source of the
+     * This method handles events fired by the button to delete patients. It calls
+     * {@link PatientDao} to delete the
+     * patient from the database and removes the object from the list, which is the
+     * data source of the
      * <code>TableView</code>.
      */
     @FXML
@@ -235,9 +265,39 @@ public class AllPatientController {
         }
     }
 
+    @FXML
+    public void handleAddNewPatientButton() {
+        newPatientWindow();
+    }
+
+    public void newPatientWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    Main.class.getResource("/de/hitec/nhplus/views/patient/NewPatientView.fxml"));
+            AnchorPane pane = loader.load();
+            Scene scene = new Scene(pane);
+
+            // the primary stage should stay in the background
+            Stage stage = new Stage();
+
+            NewPatientController controller = loader.getController();
+            controller.initialize(stage);
+
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setResizable(false);
+            stage.showAndWait();
+            readAllAndShowInTableView();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     /**
-     * This method handles the events fired by the button to add a patient. It collects the data from the
-     * <code>TextField</code>s, creates an object of class <code>Patient</code> of it and passes the object to
+     * This method handles the events fired by the button to add a patient. It
+     * collects the data from the
+     * <code>TextField</code>s, creates an object of class <code>Patient</code> of
+     * it and passes the object to
      * {@link PatientDao} to persist the data.
      */
     @FXML
@@ -248,8 +308,9 @@ public class AllPatientController {
         LocalDate date = DateConverter.convertStringToLocalDate(birthday);
         String careLevel = this.textFieldCareLevel.getText();
         String roomNumber = this.textFieldRoomNumber.getText();
+        Patient patient = new Patient(firstName, surname, date, careLevel, roomNumber, false);
         try {
-            this.dao.create(new Patient(firstName, surname, date, careLevel, roomNumber, false));
+            this.dao.create(patient);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -266,19 +327,5 @@ public class AllPatientController {
         this.textFieldDateOfBirth.clear();
         this.textFieldCareLevel.clear();
         this.textFieldRoomNumber.clear();
-    }
-
-    private boolean areInputDataValid() {
-        if (!this.textFieldDateOfBirth.getText().isBlank()) {
-            try {
-                DateConverter.convertStringToLocalDate(this.textFieldDateOfBirth.getText());
-            } catch (Exception exception) {
-                return false;
-            }
-        }
-
-        return !this.textFieldFirstName.getText().isBlank() && !this.textFieldSurname.getText().isBlank() &&
-                !this.textFieldDateOfBirth.getText().isBlank() && !this.textFieldCareLevel.getText().isBlank() &&
-                !this.textFieldRoomNumber.getText().isBlank();
     }
 }

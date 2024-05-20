@@ -4,7 +4,6 @@ import de.hitec.nhplus.Main;
 import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.model.Caregiver;
-import de.hitec.nhplus.model.Patient;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -52,7 +51,7 @@ public class AllCaregiverController {
     private TableColumn<Caregiver, String> columnTelephone;
 
     @FXML
-    private TableColumn<Patient, Boolean> columnIsBlocked;
+    private TableColumn<Caregiver, Boolean> columnIsBlocked;
 
     @FXML
     private Button buttonDelete;
@@ -240,12 +239,12 @@ public class AllCaregiverController {
         }
     }
 
-    @FXML
+            @FXML
     public void handleAddNewCaregiverButton() {
-        newCaregiverWindow();
+        newPatientWindow();
     }
 
-    public void newCaregiverWindow() {
+    public void newPatientWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(
                     Main.class.getResource("/de/hitec/nhplus/views/caregiver/NewCaregiverView.fxml"));
@@ -262,6 +261,7 @@ public class AllCaregiverController {
             stage.centerOnScreen();
             stage.setResizable(false);
             stage.showAndWait();
+            readAllAndShowInTableView();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
