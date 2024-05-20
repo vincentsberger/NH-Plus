@@ -147,13 +147,11 @@ public class AllCaregiverController {
         if(event.getSource() instanceof CheckBox) {
             CheckBox cb = (CheckBox) event.getSource();
             if(cb.isSelected()) {
-                FilteredList<Caregiver> filteredCaregivers = caregivers.filtered(cg -> (cg.isBlocked() == true));
+                FilteredList<Caregiver> filteredCaregivers = caregivers.filtered(caregiver -> (caregiver.isBlocked() == true));
                 this.tableView.setItems(filteredCaregivers);
             } else {
                 this.tableView.setItems(caregivers);
             }
-
-
         }
     }
     /**

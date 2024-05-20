@@ -7,6 +7,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -88,6 +90,9 @@ public class AllPatientController {
     @FXML
     private CheckBox checkboxIsBlocked;
 
+    @FXML
+    private CheckBox checkboxShowBlockedOnly;
+
     private final ObservableList<Patient> patients = FXCollections.observableArrayList();
     private PatientDao dao;
 
@@ -136,6 +141,19 @@ public class AllPatientController {
                 AllPatientController.this.buttonBlock.setDisable(newPatient == null);
             }
         });
+    }
+
+    @FXML
+    public void handleToggleShowBlockedOnly(ActionEvent event) {
+        if (event.getSource() instanceof CheckBox) {
+            CheckBox cb = (CheckBox) event.getSource();
+            if (cb.isSelected()) {
+                FilteredList<Patient> filteredPatients = patients.filtered(patient -> (patient.isBlocked() == true));
+                this.tableView.setItems(filteredPatients);
+            } else {
+                this.tableView.setItems(patients);
+            }
+        }
     }
 
     /**
