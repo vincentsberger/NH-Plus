@@ -4,6 +4,7 @@ import de.hitec.nhplus.Main;
 import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.model.Caregiver;
+import de.hitec.nhplus.model.Patient;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,7 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,6 +27,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * The <code>AllPatientController</code> contains the entire logic of the
@@ -207,15 +211,23 @@ public class AllCaregiverController {
      */
     @FXML
     public void handleDelete() {
-        Caregiver selectedItem = this.tableView.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            try {
-                DaoFactory.getDaoFactory().createCaregiverDao().deleteById(selectedItem.getCid());
-                this.tableView.getItems().remove(selectedItem);
-            } catch (SQLException exception) {
-                exception.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Warnung!");
+        alert.setHeaderText("Sind Sie sicher, dass sie den Pfleger löschen möchten?");
+        alert.setContentText("Dieser Vorgang ist irreversibel.");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Caregiver selectedItem = this.tableView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                try {
+                    DaoFactory.getDaoFactory().createCaregiverDao().deleteById(selectedItem.getCid());
+                    this.tableView.getItems().remove(selectedItem);
+                } catch (SQLException exception) {
+                    exception.printStackTrace();
+                }
             }
         }
+        return;
     }
 
     /**
@@ -239,7 +251,7 @@ public class AllCaregiverController {
         }
     }
 
-            @FXML
+    @FXML
     public void handleAddNewCaregiverButton() {
         newPatientWindow();
     }
