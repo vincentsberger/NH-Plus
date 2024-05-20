@@ -7,8 +7,8 @@ module de.hitec.nhplus {
     requires org.controlsfx.controls;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
+    requires transitive org.apache.pdfbox;
 
-    opens de.hitec.nhplus to javafx.fxml;
     opens de.hitec.nhplus.controller to javafx.fxml;
     opens de.hitec.nhplus.controller.scenes to javafx.fxml;
     opens de.hitec.nhplus.controller.patient to javafx.fxml;

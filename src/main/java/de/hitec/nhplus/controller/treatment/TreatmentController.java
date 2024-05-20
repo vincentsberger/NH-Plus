@@ -15,6 +15,8 @@ import de.hitec.nhplus.utils.DateConverter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+
 public class TreatmentController {
 
     @FXML
@@ -102,11 +104,16 @@ public class TreatmentController {
 
     @FXML
     public void handlePdfExportButton() {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Feature nicht verfügbar!");
         alert.setHeaderText("Dieses Feature ist noch in der Entwicklung");
         alert.setContentText("...wird aber demnächst fertig =)");
         alert.showAndWait();
+
+    }
+
+    private void createPdfFromTreatment() {
+        PDDocument document = new PDDocument();
     }
 
     private void doUpdate() {
