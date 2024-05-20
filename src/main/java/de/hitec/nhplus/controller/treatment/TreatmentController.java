@@ -47,6 +47,9 @@ public class TreatmentController {
     private TextArea textAreaRemarks;
 
     @FXML
+    private Button pdfExporButton;
+
+    @FXML
     private DatePicker datePicker;
 
     private AllTreatmentController controller;
@@ -95,6 +98,15 @@ public class TreatmentController {
         doUpdate();
         controller.readAllAndShowInTableView();
         stage.close();
+    }
+
+    @FXML
+    public void handlePdfExportButton() {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Feature nicht verfügbar!");
+        alert.setHeaderText("Dieses Feature ist noch in der Entwicklung");
+        alert.setContentText("...wird aber demnächst fertig =)");
+        alert.showAndWait();
     }
 
     private void doUpdate() {
