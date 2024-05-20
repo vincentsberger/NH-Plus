@@ -4,11 +4,11 @@ import de.hitec.nhplus.Main;
 import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.model.Caregiver;
-import de.hitec.nhplus.model.Patient;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -65,6 +65,9 @@ public class AllCaregiverController {
 
     @FXML
     private Button buttonBlock;
+
+    @FXML
+    private CheckBox checkboxShowBlockedOnly;
 
     @FXML
     private TextField textFieldSurname;
@@ -135,8 +138,15 @@ public class AllCaregiverController {
                 AllCaregiverController.this.buttonBlock.setDisable(newCaregiver == null);
             }
         });
+
     }
 
+    @FXML
+    public void handleToggleShowBlockedOnly(ActionEvent event) {
+        if(event.getSource() instanceof CheckBox) {
+            
+        }
+    }
     /**
      * When a cell of the column with first names was changed, this method will be
      * called, to persist the change.
