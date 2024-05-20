@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -144,7 +145,15 @@ public class AllCaregiverController {
     @FXML
     public void handleToggleShowBlockedOnly(ActionEvent event) {
         if(event.getSource() instanceof CheckBox) {
-            
+            CheckBox cb = (CheckBox) event.getSource();
+            if(cb.isSelected()) {
+                FilteredList<Caregiver> filteredCaregivers = caregivers.filtered(cg -> (cg.isBlocked() == true));
+                this.tableView.setItems(filteredCaregivers);
+            } else {
+                this.tableView.setItems(caregivers);
+            }
+
+
         }
     }
     /**

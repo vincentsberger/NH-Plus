@@ -1,5 +1,7 @@
 # NH-Plus #
 
+![Startup Buero](src/main/resources/images/startup-buero.png)
+
 ## Was ist NH-Plus? ##
 
 NH-Plus ist eine Verwaltungssoftware für medizinische Einrichtungen. Es können Pfleger, Patienten und Behandlungen erstellt und verwaltet werden. Mehr Features folgen noch.
