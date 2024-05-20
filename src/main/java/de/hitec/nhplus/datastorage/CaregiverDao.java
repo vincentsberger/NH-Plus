@@ -175,7 +175,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
                     "surname = ?, " +
                     "dateOfBirth = ?, " +
                     "telephone = ?, " +
-                    "is_blocked = ?, " +
+                    "is_blocked = ? " +
                     "WHERE cid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setString(1, caregiver.getFirstName());

@@ -1,7 +1,6 @@
 package de.hitec.nhplus.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 import de.hitec.nhplus.Main;
@@ -10,7 +9,6 @@ import de.hitec.nhplus.datastorage.ConnectionBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.effect.ImageInput;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;

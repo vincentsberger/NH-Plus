@@ -31,7 +31,7 @@ public class Patient extends Person {
      * @param roomNumber Room number of the patient.
      * @param isBlocked Indicates whether the patient is blocked or not
      */
-    public Patient(String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber, Boolean isBlocked) {
+    public Patient(String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber, boolean isBlocked) {
         super(firstName, surname);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.careLevel = new SimpleStringProperty(careLevel);
@@ -51,7 +51,7 @@ public class Patient extends Person {
      * @param roomNumber Room number of the patient.
      * @param isBlocked Indicates whether the patient is blocked or not
      */
-    public Patient(long pid, String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber, Boolean isBlocked) {
+    public Patient(long pid, String firstName, String surname, LocalDate dateOfBirth, String careLevel, String roomNumber, boolean isBlocked) {
         super(firstName, surname);
         this.pid = new SimpleLongProperty(pid);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
@@ -64,7 +64,7 @@ public class Patient extends Person {
         return pid.get();
     }
 
-    public Boolean isBlocked() {
+    public boolean isBlocked() {
         return this.isBlocked.get();
     }
 
@@ -142,7 +142,7 @@ public class Patient extends Person {
                 "\n";
     }
 
-    public void setIsBlocked(Boolean isBlocked) {
+    public void setIsBlocked(boolean isBlocked) {
         this.isBlocked.set(isBlocked);
     }
 }

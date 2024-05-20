@@ -1,21 +1,30 @@
 package de.hitec.nhplus.controller.caregiver;
 
+import de.hitec.nhplus.Main;
 import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.model.Caregiver;
+import de.hitec.nhplus.model.Patient;
 import de.hitec.nhplus.utils.DateConverter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -45,10 +54,16 @@ public class AllCaregiverController {
     private TableColumn<Caregiver, String> columnTelephone;
 
     @FXML
+    private TableColumn<Patient, Boolean> columnIsBlocked;
+
+    @FXML
     private Button buttonDelete;
 
     @FXML
     private Button buttonAdd;
+
+    @FXML
+    private Button buttonBlock;
 
     @FXML
     private TextField textFieldSurname;
@@ -64,6 +79,9 @@ public class AllCaregiverController {
 
     @FXML
     private TextField textFieldTelephone;
+
+    @FXML
+    private CheckBox checboxIsBlocked;
 
     private final ObservableList<Caregiver> caregivers = FXCollections.observableArrayList();
     private CaregiverDao dao;
@@ -91,6 +109,9 @@ public class AllCaregiverController {
         this.columnTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         this.columnTelephone.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        this.columnIsBlocked.setCellValueFactory(new PropertyValueFactory<>("isBlocked"));
+        this.columnIsBlocked.setCellFactory(CheckBoxTableCell.forTableColumn(this.columnIsBlocked));
+
         // Anzeigen der Daten
         this.tableView.setItems(this.caregivers);
 
@@ -104,14 +125,15 @@ public class AllCaregiverController {
             }
         });
 
-        this.buttonAdd.setDisable(true);
-        ChangeListener<String> inputNewCaregiverListener = (observableValue, oldText,
-                newText) -> AllCaregiverController.this.buttonAdd
-                        .setDisable(!AllCaregiverController.this.areInputDataValid());
-        this.textFieldSurname.textProperty().addListener(inputNewCaregiverListener);
-        this.textFieldFirstName.textProperty().addListener(inputNewCaregiverListener);
-        this.textFieldTelephone.textProperty().addListener(inputNewCaregiverListener);
-
+        this.buttonBlock.setDisable(true);
+        this.tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Caregiver>() {
+            @Override
+            public void changed(ObservableValue<? extends Caregiver> observableValue, Caregiver oldCaregiver,
+                    Caregiver newCaregiver) {
+                ;
+                AllCaregiverController.this.buttonBlock.setDisable(newCaregiver == null);
+            }
+        });
     }
 
     /**
@@ -200,6 +222,27 @@ public class AllCaregiverController {
     }
 
     /**
+     * This method handles events fired by the button to delete patients. It calls
+     * {@link CaregiverDao} to delete the
+     * patient from the database and removes the object from the list, which is the
+     * data source of the
+     * <code>TableView</code>.
+     */
+    @FXML
+    public void handleBlock() {
+        Caregiver selectedItem = this.tableView.getSelectionModel().getSelectedItem();
+        selectedItem.setIsBlocked(!selectedItem.isBlocked());
+        if (selectedItem != null) {
+            try {
+                this.dao.update(selectedItem);
+                readAllAndShowInTableView();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * This method handles the events fired by the button to add a patient. It
      * collects the data from the
      * <code>TextField</code>s, creates an object of class <code>Patient</code> of
@@ -207,7 +250,7 @@ public class AllCaregiverController {
      * {@link CaregiverDao} to persist the data.
      */
     @FXML
-    public void handleAdd() {
+    public void handleAddNewCaregiver() {
         String surname = this.textFieldSurname.getText();
         String firstName = this.textFieldFirstName.getText();
         String birthday = this.textFieldDateOfBirth.getText();
@@ -217,7 +260,8 @@ public class AllCaregiverController {
         // String passswort = this.textFieldPasswort.getText();
 
         try {
-            this.dao.create(new Caregiver(firstName, surname, date, telephone, "user"+firstName, "password"+firstName, false));
+            this.dao.create(new Caregiver(firstName, surname, date, telephone, "user" + firstName,
+                    "password" + firstName, false));
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -235,16 +279,30 @@ public class AllCaregiverController {
         this.textFieldTelephone.clear();
     }
 
-    private boolean areInputDataValid() {
-        if (!this.textFieldDateOfBirth.getText().isBlank()) {
-            try {
-                DateConverter.convertStringToLocalDate(this.textFieldDateOfBirth.getText());
-            } catch (Exception exception) {
-                return false;
-            }
-        }
+    @FXML
+    public void handleAddNewCaregiverButton() {
+        newCaregiverWindow();
+    }
 
-        return !this.textFieldFirstName.getText().isBlank() && !this.textFieldSurname.getText().isBlank() &&
-                !this.textFieldDateOfBirth.getText().isBlank() && !this.textFieldTelephone.getText().isBlank();
-              }
+    public void newCaregiverWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    Main.class.getResource("/de/hitec/nhplus/views/caregiver/NewCaregiverView.fxml"));
+            AnchorPane pane = loader.load();
+            Scene scene = new Scene(pane);
+
+            // the primary stage should stay in the background
+            Stage stage = new Stage();
+
+            NewCaregiverController controller = loader.getController();
+            controller.initialize(stage);
+
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setResizable(false);
+            stage.showAndWait();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 }

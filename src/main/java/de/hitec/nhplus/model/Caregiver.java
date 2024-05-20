@@ -1,6 +1,7 @@
 package de.hitec.nhplus.model;
 
 import de.hitec.nhplus.utils.DateConverter;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -16,26 +17,26 @@ public class Caregiver extends Person {
     private final SimpleStringProperty telephone;
     private String username;
     private String password;
-    private Boolean isBlocked;
+    private final SimpleBooleanProperty isBlocked;
 
 
-    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password, Boolean isBlocked) {
+    public Caregiver(String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password, boolean isBlocked) {
         super(firstName, surname);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.telephone = new SimpleStringProperty(telephone);
         this.username = username;
         this.password = password;
-        this.isBlocked = isBlocked;
+        this.isBlocked = new SimpleBooleanProperty(isBlocked);
     }
 
-    public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password, Boolean isBlocked) {
+    public Caregiver(long cid, String firstName, String surname, LocalDate dateOfBirth, String telephone, String username, String password, boolean isBlocked) {
         super(firstName, surname);
         this.cid = new SimpleLongProperty(cid);
         this.telephone = new SimpleStringProperty(telephone);
         this.dateOfBirth = new SimpleStringProperty(DateConverter.convertLocalDateToString(dateOfBirth));
         this.username = username;
         this.password = password;
-        this.isBlocked = isBlocked;
+        this.isBlocked = new SimpleBooleanProperty(isBlocked);
     }
 
     public String getUsername() {
@@ -47,7 +48,15 @@ public class Caregiver extends Person {
     }
 
     public Boolean isBlocked() {
+        return this.isBlocked.get();
+    }
+
+    public SimpleBooleanProperty isBlockedProperty() {
         return this.isBlocked;
+    }
+
+    public void setIsBlocked(Boolean isBlocked) {
+        this.isBlocked.set(isBlocked);
     }
 
     public long getCid() {
