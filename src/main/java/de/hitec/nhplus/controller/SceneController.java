@@ -2,6 +2,7 @@ package de.hitec.nhplus.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 import de.hitec.nhplus.Main;
 import de.hitec.nhplus.controller.scenes.MainSceneController;
@@ -42,10 +43,6 @@ public final class SceneController {
         this.stage.setTitle("NH-Plus - Digitale Pflegeheim-Verwaltung - Login");
         this.stage.setScene(this.startScene);
         this.stage.setResizable(false);
-        Image appIconImage = new Image(getClass().getResourceAsStream("AppIcon.jpg"));
-        System.out.println("rrr");
-        System.out.println("tdsfs");
-        this.stage.getIcons().add((appIconImage));
         this.stage.centerOnScreen();
         this.stage.show();
         this.stage.setOnCloseRequest(event -> {
