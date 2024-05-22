@@ -7,6 +7,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+
 /**
  * Implements the Interface <code>DaoImp</code>. Overrides methods to generate
  * specific <code>PreparedStatements</code>,
@@ -204,6 +205,18 @@ public class CaregiverDao extends DaoImp<Caregiver> {
             final String SQL = "DELETE FROM caregiver WHERE cid = ?";
             preparedStatement = this.connection.prepareStatement(SQL);
             preparedStatement.setLong(1, cid);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return preparedStatement;
+    }
+
+    @Override
+    protected PreparedStatement getDescribeStatement() {
+        PreparedStatement preparedStatement = null;
+        try {
+            final String SQL = "PRAGMA table_info(caregiver)";
+            preparedStatement = this.connection.prepareStatement(SQL);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

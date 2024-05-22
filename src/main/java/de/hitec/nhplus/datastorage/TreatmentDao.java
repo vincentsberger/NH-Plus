@@ -209,4 +209,16 @@ public class TreatmentDao extends DaoImp<Treatment> {
         }
         return preparedStatement;
     }
+
+    @Override
+    protected PreparedStatement getDescribeStatement() {
+        PreparedStatement preparedStatement = null;
+        try {
+            final String SQL = "PRAGMA table_info(treatment)";
+            preparedStatement = this.connection.prepareStatement(SQL);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return preparedStatement;
+    }
 }
