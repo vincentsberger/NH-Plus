@@ -13,6 +13,14 @@
         <junit.version>5.10.0</junit.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <name>e-iceblue</name>
+            <url>https://repo.e-iceblue.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -50,14 +58,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <!-- PDF -->
-        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
         <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>3.0.2</version>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.doc.free</artifactId>
+            <version>5.2.0</version>
         </dependency>
-
 
         <!-- SLF4J Log4j Implementation -->
         <dependency>
@@ -74,8 +79,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>20</source>
+                    <target>20</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -107,12 +112,15 @@
 
         <dependencies>
 
-
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.36</version>
             </dependency>
+
+
+
+
 
         </dependencies>
 

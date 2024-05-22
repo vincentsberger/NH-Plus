@@ -1,21 +1,26 @@
 package de.hitec.nhplus.controller.treatment;
 
+import java.io.File;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
 import de.hitec.nhplus.datastorage.CaregiverDao;
 import de.hitec.nhplus.datastorage.DaoFactory;
 import de.hitec.nhplus.datastorage.PatientDao;
 import de.hitec.nhplus.datastorage.TreatmentDao;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
 import de.hitec.nhplus.model.Caregiver;
 import de.hitec.nhplus.model.Patient;
 import de.hitec.nhplus.model.Treatment;
 import de.hitec.nhplus.utils.DateConverter;
-
-import java.sql.SQLException;
-import java.time.LocalDate;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
+import de.hitec.nhplus.utils.export.TreatmentReport;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class TreatmentController {
 
@@ -49,7 +54,7 @@ public class TreatmentController {
     private TextArea textAreaRemarks;
 
     @FXML
-    private Button pdfExporButton;
+    private Button pdfExportButton;
 
     @FXML
     private DatePicker datePicker;
@@ -104,17 +109,21 @@ public class TreatmentController {
 
     @FXML
     public void handlePdfExportButton() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Feature nicht verfügbar!");
-        alert.setHeaderText("Dieses Feature ist noch in der Entwicklung");
-        alert.setContentText("...wird aber demnächst fertig =)");
-        alert.showAndWait();
 
+        TreatmentReport treatmentReport = new TreatmentReport(this.treatment);
+        String initialFilename = "Behandlungsbericht-"+ this.treatment.getTid() +".pdf";
+        treatmentReport.generate();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Bericht speichern unter...");
+        fileChooser.setInitialFileName(initialFilename);
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            String absolutePathToFile = file.getAbsolutePath();
+            treatmentReport.saveToFile(absolutePathToFile);
+        }
     }
 
-    private void createPdfFromTreatment() {
-        PDDocument document = new PDDocument();
-    }
 
     private void doUpdate() {
         TreatmentDao dao = DaoFactory.getDaoFactory().createTreatmentDao();

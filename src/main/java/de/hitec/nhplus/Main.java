@@ -1,7 +1,6 @@
 package de.hitec.nhplus;
 
 import de.hitec.nhplus.controller.SceneController;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
