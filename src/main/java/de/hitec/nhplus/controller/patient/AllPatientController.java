@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,10 +92,19 @@ public class AllPatientController {
     private CheckBox checkboxIsBlocked;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
     private CheckBox checkboxShowBlockedOnly;
 
     private final ObservableList<Patient> patients = FXCollections.observableArrayList();
     private PatientDao dao;
+    private FilteredList<Patient> filteredData;
+
+    public void initialize() {
+        initializeTableView();
+        initializeSearch();
+    }
 
     /**
      * When <code>initialize()</code> gets called, all fields are already
@@ -103,7 +113,7 @@ public class AllPatientController {
      * the fields can be accessed and
      * configured.
      */
-    public void initialize() {
+    public void initializeTableView() {
         this.readAllAndShowInTableView();
 
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("pid"));
@@ -141,6 +151,32 @@ public class AllPatientController {
                 AllPatientController.this.buttonBlock.setDisable(newPatient == null);
             }
         });
+    }
+    public void initializeSearch() {
+        filteredData = new FilteredList<>(patients, p -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(patient -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (patient.getSurname().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (patient.getFirstName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<Patient> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
+
     }
 
     @FXML
@@ -345,6 +381,10 @@ public class AllPatientController {
         }
         readAllAndShowInTableView();
         clearTextfields();
+    }
+    @FXML
+    public void handleSearch() {
+
     }
 
     /**
