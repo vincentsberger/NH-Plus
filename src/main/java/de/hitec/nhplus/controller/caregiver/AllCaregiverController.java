@@ -230,8 +230,8 @@ public class AllCaregiverController {
     public void handleDelete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Warnung!");
-        alert.setHeaderText("Sind Sie sicher, dass sie den Pfleger löschen möchten?");
-        alert.setContentText("Dieser Vorgang ist irreversibel.");
+        alert.setHeaderText("Sind Sie sicher? (Pfleger löschen)");
+        alert.setContentText("Dieser Vorgang lässt sich NICHT mehr rückgängig machen.");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Caregiver selectedItem = this.tableView.getSelectionModel().getSelectedItem();

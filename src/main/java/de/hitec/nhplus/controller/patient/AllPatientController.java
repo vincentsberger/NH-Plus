@@ -277,8 +277,8 @@ public class AllPatientController {
     public void handleDelete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Warnung!");
-        alert.setHeaderText("Sind Sie sicher, dass sie den Patienten löschen möchten?");
-        alert.setContentText("Dieser Vorgang ist irreversibel.");
+        alert.setHeaderText("Sind Sie sicher? (Patient löschen)");
+        alert.setContentText("Dieser Vorgang lässt sich NICHT mehr rückgängig machen.");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Patient selectedItem = this.tableView.getSelectionModel().getSelectedItem();
@@ -291,7 +291,6 @@ public class AllPatientController {
                 }
             }
         }
-        return;
     }
 
     @FXML
