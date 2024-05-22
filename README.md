@@ -1,6 +1,6 @@
 # NH-Plus #
 
-![Startup Buero](src/main/resources/images/startup-buero.png)
+![Startup Buero](src/main/resources/images/AppIcon.jpg)
 
 ## Was ist NH-Plus? ##
 

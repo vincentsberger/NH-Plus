@@ -48,7 +48,7 @@
             </Label>
             <ImageView fitHeight="536.0" fitWidth="822.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../images/startup-buero.png" />
+                  <Image url="@../../../../images/AppIcon.jpg" />
                </image>
                <VBox.margin>
                   <Insets top="20.0" />
