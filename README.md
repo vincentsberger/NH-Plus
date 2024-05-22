@@ -20,6 +20,10 @@ NH-Plus ist eine Verwaltungssoftware für medizinische Einrichtungen. Es können
 - Vincent Simonsberger
 - Fokko Elberfeldt
 
+## Login NH-Plus ##
+**Benutzername**: admin \
+**Passwort**: admin123
+
 ## Tests ##
 
 ## 01-Pflege-Tabelle-hinzufuegen ##
