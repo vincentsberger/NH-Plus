@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import de.hitec.nhplus.model.Caregiver;
 import de.hitec.nhplus.model.Patient;
 import de.hitec.nhplus.model.Treatment;
+import javafx.collections.transformation.SortedList;
+import javafx.collections.transformation.FilteredList;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -57,19 +59,28 @@ public class AllTreatmentController {
     @FXML
     private Button buttonDelete;
 
+    @FXML
+    private TextField searchField;
+
     private final ObservableList<Treatment> treatments = FXCollections.observableArrayList();
     private TreatmentDao dao;
     private final ObservableList<String> patientSelection = FXCollections.observableArrayList();
     private final ObservableList<String> caregiverSelection = FXCollections.observableArrayList();
     private ArrayList<Patient> patientList;
     private ArrayList<Caregiver> caregiverList;
+    private FilteredList<Treatment> filteredData;
 
     public void initialize() {
-        readAllAndShowInTableView();
+        initializeTableView();
+        initializeSearch();
         comboBoxPatientSelection.setItems(patientSelection);
         comboBoxPatientSelection.getSelectionModel().select(0);
         comboBoxCaregiverSelection.setItems(caregiverSelection);
         comboBoxCaregiverSelection.getSelectionModel().select(0);
+    }
+
+    public void initializeTableView() {
+        readAllAndShowInTableView();
 
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("tid"));
         this.columnPid.setCellValueFactory(new PropertyValueFactory<>("pid"));
@@ -88,6 +99,41 @@ public class AllTreatmentController {
 
         this.createPatientComboBoxData();
         this.createCaregiverComboBoxData();
+    }
+
+    private void initializeSearch() {
+        filteredData = new FilteredList<>(treatments, p -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(treatment -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(treatment.getTid()).contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(treatment.getPid()).contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(treatment.getCid()).contains(lowerCaseFilter)) {
+                    return true;
+                } else if (treatment.getDate().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (treatment.getBegin().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (treatment.getEnd().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (treatment.getDescription().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Treatment> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
     }
 
     public void readAllAndShowInTableView() {
@@ -256,6 +302,11 @@ public class AllTreatmentController {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleSearch() {
+
     }
 
     public void treatmentWindow(Treatment treatment){

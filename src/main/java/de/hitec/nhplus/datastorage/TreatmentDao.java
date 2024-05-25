@@ -211,7 +211,7 @@ public class TreatmentDao extends DaoImp<Treatment> {
     }
 
     @Override
-    protected PreparedStatement getDescribeStatement() {
+    protected PreparedStatement getDescribedColumns() {
         PreparedStatement preparedStatement = null;
         try {
             final String SQL = "PRAGMA table_info(treatment)";
@@ -220,5 +220,11 @@ public class TreatmentDao extends DaoImp<Treatment> {
             exception.printStackTrace();
         }
         return preparedStatement;
+    }
+
+    @Override
+    protected ArrayList<String> getDescribeResultSet(ResultSet result) throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        return list;
     }
 }

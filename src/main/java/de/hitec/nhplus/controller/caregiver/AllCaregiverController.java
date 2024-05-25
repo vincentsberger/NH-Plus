@@ -13,21 +13,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.collections.transformation.SortedList;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -88,8 +84,32 @@ public class AllCaregiverController {
     @FXML
     private CheckBox checboxIsBlocked;
 
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private ComboBox<String> comboBoxCaregiverSelection;
+
+
     private final ObservableList<Caregiver> caregivers = FXCollections.observableArrayList();
+    private FilteredList<Caregiver> filteredData;
     private CaregiverDao dao;
+    private final ObservableList<String> caregiverSelection = FXCollections.observableArrayList();
+    private ArrayList<Caregiver> caregiverList; //wird benötig wenn category über query
+
+
+
+    public void initialize() {
+        initializeTableView();
+        initializeSearch();
+        comboBoxCaregiverSelection.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+        searchField.clear();
+        updateFilter();
+        });
+
+        comboBoxCaregiverSelection.setItems(caregiverSelection);
+        comboBoxCaregiverSelection.getSelectionModel().select(0);
+    }
 
     /**
      * When <code>initialize()</code> gets called, all fields are already
@@ -98,7 +118,7 @@ public class AllCaregiverController {
      * the fields can be accessed and
      * configured.
      */
-    public void initialize() {
+    public void initializeTableView() {
         this.readAllAndShowInTableView();
 
         this.columnId.setCellValueFactory(new PropertyValueFactory<>("cid"));
@@ -139,8 +159,48 @@ public class AllCaregiverController {
                 AllCaregiverController.this.buttonBlock.setDisable(newCaregiver == null);
             }
         });
-
+        createCaregiverComboBoxData();
     }
+
+    public void initializeSearch() {
+        filteredData = new FilteredList<>(caregivers, p -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateFilter();
+        });
+
+        SortedList<Caregiver> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
+    }
+
+    private void updateFilter() {
+        String newValue = searchField.getText();
+        String selectedColumn = getSelectedSearch();
+        filteredData.setPredicate(caregiver -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            switch (selectedColumn) {
+                case "PflegerID":
+                    return String.valueOf(caregiver.getCid()).toLowerCase().contains(lowerCaseFilter);
+                case "Vorname":
+                    return caregiver.getFirstName().toLowerCase().contains(lowerCaseFilter);
+                case "Nachname":
+                    return caregiver.getSurname().toLowerCase().contains(lowerCaseFilter);
+                case "Telefon":
+                    return caregiver.getTelephone().toLowerCase().contains(lowerCaseFilter);
+                default:
+                    return false;
+            }
+        });
+    }
+
+
 
     @FXML
     public void handleToggleShowBlockedOnly(ActionEvent event) {
@@ -219,6 +279,40 @@ public class AllCaregiverController {
         }
     }
 
+    @FXML
+    private void createCaregiverComboBoxData() {
+        if (caregiverSelection.isEmpty()) {
+            caregiverSelection.add("PflegerID");
+            caregiverSelection.add("Vorname");
+            caregiverSelection.add("Nachname");
+            caregiverSelection.add("Telefon");
+            comboBoxCaregiverSelection.setItems(caregiverSelection);
+        }
+    }
+    private String getSelectedSearch() {
+        return this.comboBoxCaregiverSelection.getSelectionModel().getSelectedItem();
+    }
+    /*
+    befüllt die combobox mit den Columns die die Cargiver-tabelle hat
+    @FXML
+    private void createCaregiverComboBoxData() {
+        CaregiverDao cDao = DaoFactory.getDaoFactory().createCaregiverDao();
+        try {
+        ArrayList<String> categoryList = (ArrayList<String>) cDao.describe();
+        this.caregiverSelection.add("Spalte Auswählen");
+        int size = cDao.describe().size();
+        if (size <= 0) {
+            this.caregiverSelection.add("test");
+        }
+        for (String category : categoryList) {
+            this.caregiverSelection.add(category);
+        }
+    }
+        catch (SQLException exception) {
+        exception.printStackTrace();
+    }
+}*/
+
     /**
      * This method handles events fired by the button to delete patients. It calls
      * {@link CaregiverDao} to delete the
@@ -271,6 +365,11 @@ public class AllCaregiverController {
     @FXML
     public void handleAddNewCaregiverButton() {
         newPatientWindow();
+    }
+
+    @FXML
+    public void handleSearch() {
+
     }
 
     public void newPatientWindow() {

@@ -212,7 +212,7 @@ public class CaregiverDao extends DaoImp<Caregiver> {
     }
 
     @Override
-    protected PreparedStatement getDescribeStatement() {
+    protected PreparedStatement getDescribedColumns() {
         PreparedStatement preparedStatement = null;
         try {
             final String SQL = "PRAGMA table_info(caregiver)";
@@ -221,5 +221,15 @@ public class CaregiverDao extends DaoImp<Caregiver> {
             exception.printStackTrace();
         }
         return preparedStatement;
+    }
+
+    @Override
+    protected ArrayList<String> getDescribeResultSet(ResultSet result) throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        while (result.next()) {
+            String columnName = result.getString("name");
+            list.add(columnName);
+        }
+        return list;
     }
 }

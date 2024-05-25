@@ -14,10 +14,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
 
 <AnchorPane prefHeight="572.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hitec.nhplus.controller.caregiver.AllCaregiverController">
    <children>
-      <TableView fx:id="tableView" editable="true" layoutX="31.0" layoutY="100.0" prefHeight="373.0" prefWidth="825.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="90.0">
+       <HBox alignment="TOP_LEFT" layoutX="31.0" layoutY="70.0" spacing="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="70.0">
+           <children>
+               <TextField fx:id="searchField" promptText="nach Pflegern suchen" onKeyReleased="#handleSearch" />
+               <ComboBox fx:id="comboBoxCaregiverSelection" minWidth="160.0" onAction="#createCaregiverComboBoxData" prefWidth="200.0" />
+           </children>
+       </HBox>
+      <TableView fx:id="tableView" editable="true" layoutX="31.0" layoutY="110.0" prefHeight="373.0" prefWidth="825.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="110.0">
          <columns>
             <TableColumn fx:id="columnId" maxWidth="1200.0" minWidth="5.0" prefWidth="103.0" text="PflegerID" />
             <TableColumn fx:id="columnSurname" maxWidth="7500.0" minWidth="20.0" prefWidth="231.0" text="Nachname" />

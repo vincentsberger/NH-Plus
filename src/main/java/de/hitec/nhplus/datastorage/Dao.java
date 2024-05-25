@@ -14,5 +14,5 @@ public interface Dao<T> {
 
     void deleteById(long key) throws SQLException;
 
-    void describe() throws SQLException;
+    List<String> describe() throws SQLException;
 }
