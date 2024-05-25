@@ -13,13 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -32,6 +26,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The <code>AllPatientController</code> contains the entire logic of the
@@ -95,15 +90,29 @@ public class AllPatientController {
     private TextField searchField;
 
     @FXML
+    private ComboBox<String> comboBoxPatientSelection;
+
+    @FXML
     private CheckBox checkboxShowBlockedOnly;
 
     private final ObservableList<Patient> patients = FXCollections.observableArrayList();
     private PatientDao dao;
     private FilteredList<Patient> filteredData;
+    private final ObservableList<String> patientSelection = FXCollections.observableArrayList();
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
 
     public void initialize() {
         initializeTableView();
         initializeSearch();
+
+        comboBoxPatientSelection.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            searchField.clear();
+            updateFilter();
+        });
+
+        comboBoxPatientSelection.setItems(patientSelection);
+        comboBoxPatientSelection.getSelectionModel().select(0);
     }
 
     /**
@@ -151,32 +160,48 @@ public class AllPatientController {
                 AllPatientController.this.buttonBlock.setDisable(newPatient == null);
             }
         });
+        createPatientComboBoxData();
     }
     public void initializeSearch() {
         filteredData = new FilteredList<>(patients, p -> true);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(patient -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (patient.getSurname().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (patient.getFirstName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false;
-            });
+            updateFilter();
         });
 
         SortedList<Patient> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
+    }
+    private void updateFilter() {
+        String newValue = searchField.getText();
+        String selectedColumn = getSelectedSearch();
+        filteredData.setPredicate(patient -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
 
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            switch (selectedColumn) {
+                case "ID":
+                    return String.valueOf(patient.getPid()).toLowerCase().contains(lowerCaseFilter);
+                case "Vorname":
+                    return patient.getFirstName().toLowerCase().contains(lowerCaseFilter);
+                case "Nachname":
+                    return patient.getSurname().toLowerCase().contains(lowerCaseFilter);
+                case "Pflegegrad":
+                    return patient.getCareLevel().toLowerCase().contains(lowerCaseFilter);
+                case "Raum":
+                    return patient.getRoomNumber().toLowerCase().contains(lowerCaseFilter);
+                case "Geburtstag":
+                    String dateOfBirthString = patient.getDateOfBirth().format(String.valueOf(DATE_FORMATTER)).toLowerCase();
+                    return dateOfBirthString.contains(lowerCaseFilter);
+                default:
+                    return false;
+            }
+        });
     }
 
     @FXML
@@ -301,6 +326,23 @@ public class AllPatientController {
             exception.printStackTrace();
         }
     }
+
+    @FXML
+    private void createPatientComboBoxData() {
+        if (patientSelection.isEmpty()) {
+            patientSelection.add("ID");
+            patientSelection.add("Nachname");
+            patientSelection.add("Vorname");
+            patientSelection.add("Geburtstag");
+            patientSelection.add("Pflegegrad");
+            patientSelection.add("Raum");
+            comboBoxPatientSelection.setItems(patientSelection);
+        }
+    }
+    private String getSelectedSearch() {
+        return this.comboBoxPatientSelection.getSelectionModel().getSelectedItem();
+    }
+
 
     /**
      * This method handles events fired by the button to delete patients. It calls

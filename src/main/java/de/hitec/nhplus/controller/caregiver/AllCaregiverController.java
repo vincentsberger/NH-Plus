@@ -283,8 +283,8 @@ public class AllCaregiverController {
     private void createCaregiverComboBoxData() {
         if (caregiverSelection.isEmpty()) {
             caregiverSelection.add("PflegerID");
-            caregiverSelection.add("Vorname");
             caregiverSelection.add("Nachname");
+            caregiverSelection.add("Vorname");
             caregiverSelection.add("Telefon");
             comboBoxCaregiverSelection.setItems(caregiverSelection);
         }
@@ -293,7 +293,7 @@ public class AllCaregiverController {
         return this.comboBoxCaregiverSelection.getSelectionModel().getSelectedItem();
     }
     /*
-    befüllt die combobox mit den Columns die die Cargiver-tabelle hat
+    befüllt die combobox mit den Columns die die Caregiver-tabelle hat
     @FXML
     private void createCaregiverComboBoxData() {
         CaregiverDao cDao = DaoFactory.getDaoFactory().createCaregiverDao();

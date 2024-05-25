@@ -23,6 +23,9 @@ import javafx.collections.transformation.FilteredList;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
+
 
 public class AllTreatmentController {
 
@@ -57,6 +60,9 @@ public class AllTreatmentController {
     private ComboBox<String> comboBoxCaregiverSelection;
 
     @FXML
+    private ComboBox<String> comboBoxTreatmentSelection;
+
+    @FXML
     private Button buttonDelete;
 
     @FXML
@@ -69,6 +75,11 @@ public class AllTreatmentController {
     private ArrayList<Patient> patientList;
     private ArrayList<Caregiver> caregiverList;
     private FilteredList<Treatment> filteredData;
+    private final ObservableList<String> treatmentSelection = FXCollections.observableArrayList();
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+
+
 
     public void initialize() {
         initializeTableView();
@@ -77,6 +88,13 @@ public class AllTreatmentController {
         comboBoxPatientSelection.getSelectionModel().select(0);
         comboBoxCaregiverSelection.setItems(caregiverSelection);
         comboBoxCaregiverSelection.getSelectionModel().select(0);
+        comboBoxTreatmentSelection.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            searchField.clear();
+            updateFilter();
+        });
+
+        comboBoxTreatmentSelection.setItems(treatmentSelection);
+        comboBoxTreatmentSelection.getSelectionModel().select(0);
     }
 
     public void initializeTableView() {
@@ -99,41 +117,53 @@ public class AllTreatmentController {
 
         this.createPatientComboBoxData();
         this.createCaregiverComboBoxData();
+        createTreatmentComboBoxData();
     }
 
-    private void initializeSearch() {
+    public void initializeSearch() {
         filteredData = new FilteredList<>(treatments, p -> true);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(treatment -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (String.valueOf(treatment.getTid()).contains(lowerCaseFilter)) {
-                    return true;
-                } else if (String.valueOf(treatment.getPid()).contains(lowerCaseFilter)) {
-                    return true;
-                } else if (String.valueOf(treatment.getCid()).contains(lowerCaseFilter)) {
-                    return true;
-                } else if (treatment.getDate().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (treatment.getBegin().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (treatment.getEnd().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (treatment.getDescription().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false;
-            });
+            updateFilter();
         });
+
         SortedList<Treatment> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
+    }
+    private void updateFilter() {
+        String newValue = searchField.getText();
+        String selectedColumn = getSelectedSearch();
+        filteredData.setPredicate(treatment -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            switch (selectedColumn) {
+                case "ID":
+                    return String.valueOf(treatment.getTid()).toLowerCase().contains(lowerCaseFilter);
+                case "PatientID":
+                    return String.valueOf(treatment.getPid()).toLowerCase().contains(lowerCaseFilter);
+                case "PflegerID":
+                    return String.valueOf(treatment.getCid()).toLowerCase().contains(lowerCaseFilter);
+                case "Beginn":
+                    String beginString = treatment.getBegin().format(String.valueOf(TIME_FORMATTER)).toLowerCase();
+                    return beginString.contains(lowerCaseFilter);
+                case "Ende":
+                    String endString = treatment.getEnd().format(String.valueOf(TIME_FORMATTER)).toLowerCase();
+                    return endString.contains(lowerCaseFilter);
+                case "Datum":
+                    String dateOfBirthString = treatment.getDate().format(String.valueOf(DATE_FORMATTER)).toLowerCase();
+                    return dateOfBirthString.contains(lowerCaseFilter);
+                case "Kurzbeschreibung":
+                    return String.valueOf(treatment.getDescription()).toLowerCase().contains(lowerCaseFilter);
+                default:
+                    return false;
+            }
+        });
     }
 
     public void readAllAndShowInTableView() {
@@ -242,7 +272,24 @@ public class AllTreatmentController {
         return null;
     }
 
-    
+    @FXML
+    private void createTreatmentComboBoxData() {
+        if (treatmentSelection.isEmpty()) {
+            treatmentSelection.add("ID");
+            treatmentSelection.add("PatientID");
+            treatmentSelection.add("PflegerID");
+            treatmentSelection.add("Datum");
+            treatmentSelection.add("Beginn");
+            treatmentSelection.add("Ende");
+            treatmentSelection.add("Kurzbeschreibung");
+            comboBoxPatientSelection.setItems(treatmentSelection);
+        }
+    }
+    private String getSelectedSearch() {
+        return this.comboBoxTreatmentSelection.getSelectionModel().getSelectedItem();
+    }
+
+
 
     @FXML
     public void handleDelete() {
