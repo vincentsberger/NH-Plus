@@ -1,0 +1,11 @@
+module:de.hitec.nhplus
+de.hitec.nhplus
+de.hitec.nhplus.controller
+de.hitec.nhplus.controller.caregiver
+de.hitec.nhplus.controller.patient
+de.hitec.nhplus.controller.scenes
+de.hitec.nhplus.controller.treatment
+de.hitec.nhplus.datastorage
+de.hitec.nhplus.model
+de.hitec.nhplus.utils
+de.hitec.nhplus.utils.export
