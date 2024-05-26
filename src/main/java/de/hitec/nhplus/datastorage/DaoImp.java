@@ -41,6 +41,11 @@ public abstract class DaoImp<T> implements Dao<T> {
         getDeleteStatement(key).executeUpdate();
     }
 
+    @Override
+    public List<String> describe() throws SQLException {
+        return getDescribeResultSet(getDescribedColumns().executeQuery());
+    }
+
     protected abstract T getInstanceFromResultSet(ResultSet set) throws SQLException;
 
     protected abstract ArrayList<T> getListFromResultSet(ResultSet set) throws SQLException;
@@ -54,4 +59,8 @@ public abstract class DaoImp<T> implements Dao<T> {
     protected abstract PreparedStatement getUpdateStatement(T t);
 
     protected abstract PreparedStatement getDeleteStatement(long key);
+
+    protected abstract PreparedStatement getDescribedColumns();
+
+    protected abstract List<String> getDescribeResultSet(ResultSet set) throws SQLException;
 }

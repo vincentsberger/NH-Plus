@@ -205,4 +205,22 @@ public class PatientDao extends DaoImp<Patient> {
         }
         return preparedStatement;
     }
+
+    @Override
+    protected PreparedStatement getDescribedColumns() {
+        PreparedStatement preparedStatement = null;
+        try {
+            final String SQL = "PRAGMA table_info(patient)";
+            preparedStatement = this.connection.prepareStatement(SQL);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return preparedStatement;
+    }
+
+    @Override
+    protected ArrayList<String> getDescribeResultSet(ResultSet result) throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        return list;
+    }
 }

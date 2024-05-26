@@ -13,4 +13,6 @@ public interface Dao<T> {
     void update(T t) throws SQLException;
 
     void deleteById(long key) throws SQLException;
+
+    List<String> describe() throws SQLException;
 }
