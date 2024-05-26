@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
-import java.time.format.DateTimeFormatter;
 
 /**
  * The <code>AllPatientController</code> contains the entire logic of the
@@ -99,7 +98,6 @@ public class AllPatientController {
     private PatientDao dao;
     private FilteredList<Patient> filteredData;
     private final ObservableList<String> patientSelection = FXCollections.observableArrayList();
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 
     public void initialize() {
@@ -196,8 +194,7 @@ public class AllPatientController {
                 case "Raum":
                     return patient.getRoomNumber().toLowerCase().contains(lowerCaseFilter);
                 case "Geburtstag":
-                    String dateOfBirthString = patient.getDateOfBirth().format(String.valueOf(DATE_FORMATTER)).toLowerCase();
-                    return dateOfBirthString.contains(lowerCaseFilter);
+                    return patient.getDateOfBirth().toLowerCase().contains(lowerCaseFilter);
                 default:
                     return false;
             }

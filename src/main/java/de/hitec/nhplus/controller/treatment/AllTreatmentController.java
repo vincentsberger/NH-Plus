@@ -23,8 +23,6 @@ import javafx.collections.transformation.FilteredList;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalTime;
 
 
 public class AllTreatmentController {
@@ -76,8 +74,6 @@ public class AllTreatmentController {
     private ArrayList<Caregiver> caregiverList;
     private FilteredList<Treatment> filteredData;
     private final ObservableList<String> treatmentSelection = FXCollections.observableArrayList();
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
 
 
@@ -150,14 +146,11 @@ public class AllTreatmentController {
                 case "PflegerID":
                     return String.valueOf(treatment.getCid()).toLowerCase().contains(lowerCaseFilter);
                 case "Beginn":
-                    String beginString = treatment.getBegin().format(String.valueOf(TIME_FORMATTER)).toLowerCase();
-                    return beginString.contains(lowerCaseFilter);
+                    return String.valueOf(treatment.getBegin()).toLowerCase().contains(lowerCaseFilter);
                 case "Ende":
-                    String endString = treatment.getEnd().format(String.valueOf(TIME_FORMATTER)).toLowerCase();
-                    return endString.contains(lowerCaseFilter);
+                    return String.valueOf(treatment.getEnd()).toLowerCase().contains(lowerCaseFilter);
                 case "Datum":
-                    String dateOfBirthString = treatment.getDate().format(String.valueOf(DATE_FORMATTER)).toLowerCase();
-                    return dateOfBirthString.contains(lowerCaseFilter);
+                    return String.valueOf(treatment.getDate()).toLowerCase().contains(lowerCaseFilter);
                 case "Kurzbeschreibung":
                     return String.valueOf(treatment.getDescription()).toLowerCase().contains(lowerCaseFilter);
                 default:
