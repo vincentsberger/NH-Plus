@@ -26,8 +26,6 @@ NH-Plus ist eine Verwaltungssoftware für medizinische Einrichtungen. Es können
 
 ## FEATURES ##
 
-
-
 Bezeichnung                                          | Status             | Kommentar
 ---------------------------------------------------- | ------------------ | ---------------
 01-Pfleger-Tabelle-hinzufuegen                       | implementiert        | -
@@ -38,3 +36,8 @@ Bezeichnung                                          | Status             | Komm
 05-PDF-Export                                        | implementiert        | -
 06-Popup-Fenster-bei-manueller-Loeschung             | implementiert        | -
 07-Such-Filterfunktion-fuer-Tabellen                 | implementiert        | -
+
+
+## JAVADOCS
+
+<https://vincentsberger.github.io/NH-Plus/de.hitec.nhplus/module-summary.html>
