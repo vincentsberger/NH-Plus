@@ -6,7 +6,7 @@
 
 NH-Plus ist eine Verwaltungssoftware für medizinische Einrichtungen. Es können Pfleger, Patienten und Behandlungen erstellt und verwaltet werden. Mehr Features folgen noch.
 
-## Team ##
+## TEAM ##
 
 ### Analyse und Planung ###
 
@@ -24,17 +24,17 @@ NH-Plus ist eine Verwaltungssoftware für medizinische Einrichtungen. Es können
 **Benutzername**: admin \
 **Passwort**: admin123
 
-## Tests ##
+## FEATURES ##
 
-## 01-Pflege-Tabelle-hinzufuegen ##
 
-Test-ID  | Test Beschreibung  |  Test Ergebnis
--------- | ------------------ | ---------------
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
-Inhalt   | Inhalt             | Inhalt
+
+Bezeichnung                                          | Status             | Kommentar
+---------------------------------------------------- | ------------------ | ---------------
+01-Pfleger-Tabelle-hinzufuegen                       | implementiert        | -
+02-Authentifizierung-mit-Benutzername-und-Passwort   | implementiert        | -
+03-Vermoegensstand-aus-Patienten-Tabelle-entfernen   | implementiert        | -
+04.1-Sperrung-von-personenbezogenen-Daten            | implementiert        | -
+04.2-Automatische-Loeschung-von-personenbez-Daten    | nicht implementiert  | zeitlich nicht mehr geschafft
+05-PDF-Export                                        | implementiert        | -
+06-Popup-Fenster-bei-manueller-Loeschung             | implementiert        | -
+07-Such-Filterfunktion-fuer-Tabellen                 | implementiert        | -
